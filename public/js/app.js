@@ -1,4 +1,4 @@
-var tripUs = angular.module('tripUs', ['ngRoute', 'tripUsControllers']);
+var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices']);
 
 
 tripUs.config(['$routeProvider',
