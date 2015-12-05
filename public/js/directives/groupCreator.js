@@ -12,10 +12,15 @@ tripUsControllers.directive('groupCreator', ['$uibModal', 'group', function ($mo
                     animation: $scope.animationsEnabled,
                     templateUrl: 'group-creator-modal.html',
                     scope: $scope,
+                    resolve: { modalInstance: function () {
+                        return modalInstance;
+                    }},
                     controller: function ($scope){
                         $scope.create = function(groupName){
                             group.createGroup(groupName);
-                            console.log('group created');
+                            modalInstance.close();                        };
+                        $scope.cancel = function () {
+                            modalInstance.dismiss('cancel');
                         };
                     },
                     size: 'md'
