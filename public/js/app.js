@@ -5,9 +5,10 @@ tripUs.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
             when('/', {
-                templateUrl: 'partials/home.html',
+                templateUrl: 'public/partials/home.html',
                 controller: 'homeCtrl'
             }).otherwise({
                 redirectTo: '/'
             });
-    }]);
+    }]
+);
