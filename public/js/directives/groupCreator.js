@@ -9,7 +9,7 @@ tripUsControllers.directive('groupCreator', ['$uibModal', 'group', function ($mo
         link: function ($scope, element, attrs) {
             $scope.createGroup = function () {
                 var modalInstance = $modal.open({
-                    animation: $scope.animationsEnabled,
+                    animation: true,
                     templateUrl: 'group-creator-modal.html',
                     scope: $scope,
                     resolve: { modalInstance: function () {
