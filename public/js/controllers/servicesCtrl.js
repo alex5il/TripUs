@@ -1,8 +1,7 @@
 /**
- * Created by Mike on 05/12/2015.
+ * Created by Mike on 18/12/2015.
  */
-var tripUsControllers = angular.module('tripUsControllers', []);
-tripUsControllers.controller('homeCtrl', ['$scope', '$uibModal', 'group',
+tripUsControllers.controller('servicesCtrl', ['$scope', '$uibModal', 'group',
     function ($scope, $modal, group) {
         $scope.createGroup = function () {
             var modalInstance = $modal.open({
@@ -35,12 +34,7 @@ tripUsControllers.controller('homeCtrl', ['$scope', '$uibModal', 'group',
                 }},
                 controller: function ($scope){
                     $scope.join = function(groupCode){
-                        $scope.myGroup = group.getGroup(groupCode);
-                        if (angular.isDefined($scope.myGroup)) {
-                            console.log("you have joined group - '" + $scope.myGroup.name + "'");
-                        } else {
-                            console.log("no group found");
-                        }
+                        $scope.myGroup = group.joinGroup(groupCode);
                         modalInstance.close();
                     };
                     $scope.cancel = function () {
@@ -49,6 +43,12 @@ tripUsControllers.controller('homeCtrl', ['$scope', '$uibModal', 'group',
                 },
                 size: 'md'
             });
+
+            if (angular.isDefined($scope.myGroup)) {
+                console.log("group exists");
+            } else {
+                console.log("no group found");
+            }
         };
     }
 ]);

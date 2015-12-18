@@ -4,14 +4,19 @@
 var tripUsServices = angular.module('tripUsServices', []);
 
 tripUsServices.service('group', function(){
-    this.groups = [];
+    this.groups = {};
+    this._groupId = 1;
     return {
         groups: this.groups,
+        _groupId: this._groupId,
         createGroup: function(groupName){
-            this.groups.push(groupName);
+            var newGroup = { name: groupName, code: this._groupId};
+            this.groups[this._groupId] = newGroup;
+            this._groupId++;
+            return newGroup;
         },
-        getGroup: function(name) {
-            return this.group[name];
+        getGroup: function(code) {
+            return this.groups[code] || undefined;
         }
     };
 });
