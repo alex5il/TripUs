@@ -34,7 +34,12 @@ tripUsControllers.controller('servicesCtrl', ['$scope', '$uibModal', 'group',
                 }},
                 controller: function ($scope){
                     $scope.join = function(groupCode){
-                        $scope.myGroup = group.joinGroup(groupCode);
+                        $scope.myGroup = group.getGroup(groupCode);
+                        if (angular.isDefined($scope.myGroup)) {
+                            console.log("you have joined group - '" + $scope.myGroup.name + "'");
+                        } else {
+                            console.log("no group found");
+                        }
                         modalInstance.close();
                     };
                     $scope.cancel = function () {
@@ -43,12 +48,6 @@ tripUsControllers.controller('servicesCtrl', ['$scope', '$uibModal', 'group',
                 },
                 size: 'md'
             });
-
-            if (angular.isDefined($scope.myGroup)) {
-                console.log("group exists");
-            } else {
-                console.log("no group found");
-            }
         };
     }
 ]);

@@ -8,39 +8,7 @@
     </div>
 </header>
 
-<!--<section ng-include="servicesPartial.html" ng-controller="servicesCtrl" id="services"></section>-->
-<section id="services">
-    <!-- Services Section -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Services</h2>
-                <h3 class="section-subheading text-muted">TripUs is a decision making web application which helps you and your friends plan the best trip based on your and your friends' requirements.
-
-                    To start using the application you only need to enter the website, create a group page and invite all the group members into the group room. Each member of the group sets what he would and would not like to do in the trip and after everyone has finished entering his requirements TripUs will analyze everybody’s requests and recommend the best locations for the trip based on it.</h3>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-6">
-                <span class="fa-stack fa-4x clickable" ng-click="createGroup()">
-                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fa fa-plus-square fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="service-heading">Create Group</h4>
-                <p class="text-muted">Start your freinds trip.</p>
-            </div>
-            <div class="col-md-6">
-                <span class="fa-stack fa-4x clickable" ng-click="joinGroup()">
-                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fa fa-sign-in fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="service-heading">Join Group</h4>
-                <p class="text-muted">Join to existing group.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
+<section ng-include="'servicesPartial.html'" ng-controller="servicesCtrl" id="services"></section>
 
 <!-- About Section -->
 <section id="about">
