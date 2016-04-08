@@ -5,12 +5,17 @@ var tripUsControllers = angular.module('tripUsControllers', []);
 
 tripUs.config(['$routeProvider',
     function($routeProvider) {
-        $routeProvider.
-            when('/', {
+        $routeProvider
+        .when('/', {
                 templateUrl: '/assets/views/homePartial.html',
                 controller: 'homeCtrl'
-            }).otherwise({
-                redirectTo: '/'
-            });
+        })
+        .when('/requirements/:groupId', {
+                templateUrl: '/assets/views/requirements.html',
+                controller: 'requirementsCtrl'
+        })
+        .otherwise({
+            redirectTo: '/'
+        });
     }]
 );
