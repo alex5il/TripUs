@@ -2,6 +2,9 @@ tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'g
     $scope.create = function(groupName){
         group.createGroup(groupName);
         modalInstance.close();
+
+        var groupId = 4;
+        $location.path("/requirements/" + groupId);
     };
     $scope.cancel = function () {
         modalInstance.dismiss('cancel');
