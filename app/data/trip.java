@@ -2,28 +2,32 @@ package data;
 
 import org.jongo.MongoCollection;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
+import play.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
-import play.*;
 
-/**
- * Created by sergio on 08/04/2016.
- */
 public class Trip {
     public static PlayJongo jongo = Play.application().injector().instanceOf(PlayJongo.class);
-
-    public static MongoCollection trips() {
-        return jongo.getCollection("trips");
-    }
-
     // auto
     @MongoObjectId
     private String _id;
-
     private String tripLeader, tripName, key;
     private User[] users;
     private Pick[] picks;
 
-    public Trip() {}
+    public Trip() {
+    }
+
+    public static MongoCollection trips() {
+        return PlayJongo.getCollection("trips");
+    }
+
+    public static Trip findByKey(String key) {
+        return trips().findOne("{key: #}", key).as(Trip.class);
+    }
+
+    public static Trip findByTripLeader(String tripLeader) {
+        return trips().findOne("{tripLeader: #}", tripLeader).as(Trip.class);
+    }
 
     public String get_id() {
         return _id;
@@ -79,13 +83,5 @@ public class Trip {
 
     public void remove() {
         trips().remove(this._id);
-    }
-
-    public static Trip findByKey(String key) {
-        return trips().findOne("{key: #}", key).as(Trip.class);
-    }
-
-    public static Trip findByTripLeader(String tripLeader) {
-        return trips().findOne("{tripLeader: #}", tripLeader).as(Trip.class);
     }
 }
