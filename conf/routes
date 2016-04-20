@@ -3,7 +3,9 @@
 # ~~~~
 
 # Home page
-GET        /Home                controllers.Application.index()
+GET        /Home                      controllers.Application.index()
+GET        /AllAmenities              controllers.Amenities.getAllAmenities()
+GET        /AllAmenitiesFilter        controllers.Amenities.getAllAmenitiesWithFilter()
 
 GET        /                    controllers.Assets.at(path="/public", file="index.html")
 
