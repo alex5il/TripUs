@@ -2,6 +2,7 @@ package data;
 
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import org.jongo.RawResultHandler;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
@@ -12,6 +13,7 @@ public class Amenity {
     @MongoObjectId
     private String _id;
     private String name;
+    private String displayName;
 
     public Amenity() {
     }
@@ -21,11 +23,23 @@ public class Amenity {
     }
 
     public static MongoCursor<Amenity> amenitiesThatContainsString(String stringToFind) {
-        return ameneties().find("{name: /#/}", stringToFind).as(Amenity.class);
+        return ameneties().find("{'name': {$regex: /s/}}").as(Amenity.class);
     }
 
     public static MongoCursor<Amenity> amenities() {
         return ameneties().find().as(Amenity.class);
+    }
+
+    public static Object amenitiesJSON() {
+        return ameneties().find().map(new RawResultHandler());
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String get_id() {
