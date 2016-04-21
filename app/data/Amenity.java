@@ -23,7 +23,7 @@ public class Amenity {
     }
 
     public static MongoCursor<Amenity> amenitiesThatContainsString(String stringToFind) {
-        return ameneties().find("{'name': {$regex: /s/}}").as(Amenity.class);
+        return ameneties().find("{'name' : {'$regex' : #}}", ".*" + stringToFind + ".*").as(Amenity.class);
     }
 
     public static MongoCursor<Amenity> amenities() {

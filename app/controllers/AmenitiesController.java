@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by sergio on 20/04/2016.
  */
-public class Amenities extends Controller {
+public class AmenitiesController extends Controller {
     public Result getAllAmenities() {
         MongoCursor<Amenity> result = Amenity.amenities();
         ArrayList<String> stringsToReturn = new ArrayList<String>();
@@ -24,7 +24,7 @@ public class Amenities extends Controller {
         MongoCursor<Amenity> result = Amenity.amenitiesThatContainsString("s");
         ArrayList<String> stringsToReturn = new ArrayList<String>();
         while (result.hasNext()) {
-            stringsToReturn.add(result.next().getDisplayName());
+            stringsToReturn.add("'" + result.next().getDisplayName() + "'");
         }
         return ok(stringsToReturn.toString());
     }
