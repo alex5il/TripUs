@@ -1,11 +1,24 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location','$routeParams' , 'group', function ($scope, $location, $routeParams, group) {
-            var myGroup = group.getGroup($routeParams.groupId);
-            $scope.requirements = ['a', 'b', 'c', 'd'];
+            //var myGroup = group.getGroup($routeParams.groupId);
 
-        // Star rating crap
-        console.log("asdasd ");
-        $("#input-id").rating();
+            $scope.requirements = {
+                ratings: [{
+                    value: 3
+                }, {
+                    value: 2
+                }]
+            };
+
+            $scope.removeItem = function(index) {
+                $scope.requirements.ratings.splice(index, 1);
+            };
+
+            $scope.addItem = function() {
+                $scope.requirements.ratings.push({
+                    value: 1
+                });
+            }
         }
     ]
 );
