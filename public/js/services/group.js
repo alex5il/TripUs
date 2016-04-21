@@ -1,7 +1,6 @@
 /**
  * Created by Mike on 05/12/2015.
  */
-var tripUsServices = angular.module('tripUsServices', []);
 
 tripUsServices.service('group', function(){
     this.groups = {};

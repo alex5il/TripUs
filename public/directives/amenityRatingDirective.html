@@ -1,26 +1,25 @@
 <!--Get data from db of amenities-->
-<div class="dropdown col-xs-1 col-xs-offset-4" style="margin-top:10px">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="true">
-        Dropdown
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#">am1</a></li>
-        <li><a href="#">am1</a></li>
-        <li><a href="#">am1</a></li>
-    </ul>
-</div>
+<div class="row">
+    <div class="col-xs-1 col-xs-offset-4" style="margin-top:10px">
+        <div class="form-group">
+            <!--<label>Amenities</label>-->
+            <select class="form-control">
+                <option ng-repeat="amenity in amenities">{{amenity}}</option>
+            </select>
+        </div>
+    </div>
 
-<!--Star rating directive-->
-<div class="col-xs-2">
-    <input type="text" class="rating" data-size="sm" data-show-clear="false" data-show-caption="false" data-step="1" ng-model="item.value">
-</div>
+    <!--Star rating directive-->
+    <div class="col-xs-2">
+        <input type="text" class="rating" data-size="sm" data-show-clear="false" data-show-caption="false" data-step="1" ng-model="item.value">
+    </div>
 
-<!--Remove rating here-->
-<div class="col-xs-1">
-        <span class="fa-stack fa-2x clickable" ng-click="removeItem()">
-            <i class="fa fa-circle fa-stack-2x text-primary"></i>
-            <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
-        </span>
+    <!--Remove rating here-->
+    <div class="col-xs-1">
+            <span class="fa-stack fa-2x clickable" ng-click="removeItem()">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
+            </span>
+    </div>
+
 </div>

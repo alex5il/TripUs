@@ -4,14 +4,16 @@
     </div>
 
     <!--ng-repeat on rating here-->
-    <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem()" add-item="addItem()" item="rating"></amenity-rating>
+    <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem($index)" add-item="addItem()" item="rating" amenities="amenities"></amenity-rating>
 
     <!--Add rating here-->
-    <div class="col-xs-1 col-xs-offset-5">
-        <span class="fa-stack fa-2x clickable" ng-click="addItem()">
-            <i class="fa fa-circle fa-stack-2x text-primary"></i>
-            <i class="fa fa-plus-square fa-stack-1x fa-inverse"></i>
-        </span>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <span class="fa-stack fa-2x clickable" ng-click="addItem()">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-plus-square fa-stack-1x fa-inverse"></i>
+            </span>
+        </div>
     </div>
 
 </div>

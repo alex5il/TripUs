@@ -1,7 +1,9 @@
-var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices']);
+var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices', 'restangular']);
 
-var tripUsDirectives = angular.module('tripUsDirectives', []);
-var tripUsControllers = angular.module('tripUsControllers', []);
+var tripUsServices = angular.module('tripUsServices', []);
+var tripUsDirectives = angular.module('tripUsDirectives', ['tripUsServices']);
+var tripUsControllers = angular.module('tripUsControllers', ['tripUsServices']);
+
 
 tripUs.config(['$routeProvider',
     function($routeProvider) {
