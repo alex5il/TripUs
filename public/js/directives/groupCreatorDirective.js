@@ -7,6 +7,7 @@ tripUsControllers.directive('groupCreatorDirective', ['$uibModal', 'group', func
         templateUrl: '/assets/directives/group-creator',
         scope: {},
         link: function ($scope, element, attrs) {
+            group.create();
             console.log('directive loaded');
         }
     }

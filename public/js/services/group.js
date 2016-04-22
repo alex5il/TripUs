@@ -3,13 +3,18 @@
  */
 
 tripUsServices.service('group', ['Restangular', function(Restangular){
+
+    var baseTrip = Restangular.all('Trip');
+
     this.groups = {};
     this._groupId = 1;
+
+
     return {
-        // This will query /amenities and return a promise.
         create: function(){
-            //return Restangular.all("CreateGroup").getList();
+            return baseTrip.customPOST({name: "Test Group"}, "/create", {}, {});
         },
+
         groups: this.groups,
         _groupId: this._groupId,
         createGroup: function(groupName){
