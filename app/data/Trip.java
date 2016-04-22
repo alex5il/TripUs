@@ -10,7 +10,7 @@ public class Trip {
     // auto
     @MongoObjectId
     private String _id;
-    private String tripLeader, tripName, key;
+    private String tripName, key;
     private User[] users;
     private Pick[] picks;
 
@@ -25,24 +25,12 @@ public class Trip {
         return trips().findOne("{key: #}", key).as(Trip.class);
     }
 
-    public static Trip findByTripLeader(String tripLeader) {
-        return trips().findOne("{tripLeader: #}", tripLeader).as(Trip.class);
-    }
-
     public String get_id() {
         return _id;
     }
 
     public void set_id(String _id) {
         this._id = _id;
-    }
-
-    public String getTripLeader() {
-        return tripLeader;
-    }
-
-    public void setTripLeader(String tripLeader) {
-        this.tripLeader = tripLeader;
     }
 
     public String getTripName() {
