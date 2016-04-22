@@ -2,11 +2,9 @@ tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', function ($scope, $location, $routeParams, group, amenityService, Restangular) {
             //var myGroup = group.getGroup($routeParams.groupId);
 
-            // amenityService.all().then(function(amenities){
-            //     console.log(amenities);
-            // });
-
-            $scope.amenities = amenityService.mock();
+            amenityService.all().then(function(data) {
+                 $scope.amenities = data;
+            });
 
             $scope.requirements = {
                 ratings: [{

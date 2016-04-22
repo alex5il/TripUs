@@ -15,7 +15,7 @@ public class AmenitiesController extends Controller {
         MongoCursor<Amenity> result = Amenity.amenities();
         ArrayList<String> stringsToReturn = new ArrayList<String>();
         while (result.hasNext()) {
-            stringsToReturn.add("'" + result.next().getDisplayName() + "'");
+            stringsToReturn.add("\"" + result.next().getDisplayName() + "\"");
         }
         return ok(stringsToReturn.toString());
     }
@@ -24,7 +24,7 @@ public class AmenitiesController extends Controller {
         MongoCursor<Amenity> result = Amenity.amenitiesThatContainsString("s");
         ArrayList<String> stringsToReturn = new ArrayList<String>();
         while (result.hasNext()) {
-            stringsToReturn.add("'" + result.next().getDisplayName() + "'");
+            stringsToReturn.add("\"" + result.next().getDisplayName() + "\"");
         }
         return ok(stringsToReturn.toString());
     }

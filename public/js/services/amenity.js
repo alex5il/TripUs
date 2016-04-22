@@ -6,7 +6,7 @@ tripUsServices.service('amenityService', ['Restangular', function(Restangular){
     return {
         // This will query /amenities and return a promise.
         all: function(){
-            Restangular.all('AllAmenities').getList();
+            return Restangular.all("AllAmenities").getList();
 
             // baseAmenities.getList().then(function(amenities) {
             //     console.log(amenities);
@@ -15,7 +15,7 @@ tripUsServices.service('amenityService', ['Restangular', function(Restangular){
         },
         // This will query /amenities and return a promise.
         withFilter: function(){
-            Restangular.all('AllAmenitiesFilter').getList();
+            return Restangular.all('AllAmenitiesFilter').getList();
 
             // baseAmenities.getList().then(function(amenities) {
             //     console.log(amenities);
