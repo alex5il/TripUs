@@ -2,7 +2,7 @@
  * Created by Mike on 05/12/2015.
  */
 
-tripUsDirectives.directive('services', ['$uibModal', 'group', '$location', function ($modal, group, $location) {
+tripUsDirectives.directive('services', ['$uibModal', 'group', '$location', function ($modal, group) {
     return {
         templateUrl: '/assets/directives/servicesDirective.html',
         scope: {},

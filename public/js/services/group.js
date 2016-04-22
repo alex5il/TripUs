@@ -12,7 +12,7 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
 
     return {
         create: function(){
-            return baseTrip.customPOST({name: "Test Group"}, "/create", {}, {});
+            return baseTrip.customPOST({name: "Test Group"}, "create", {}, {});
         },
 
         groups: this.groups,

@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import data.Trip;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,8 +13,8 @@ import java.util.Random;
  */
 public class TripsController extends Controller {
     public Result createTrip() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String tripGroupName = values.get("name")[0];
+        final JsonNode values = request().body().asJson();
+        String tripGroupName = values.asText("name");
         System.out.println("New trip created : " + tripGroupName);
         Random rn = new Random();
         int groupKey = rn.nextInt(1000) + 1;
