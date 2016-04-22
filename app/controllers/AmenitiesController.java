@@ -20,8 +20,8 @@ public class AmenitiesController extends Controller {
         return ok(stringsToReturn.toString());
     }
 
-    public Result getAllAmenitiesWithFilter() {
-        MongoCursor<Amenity> result = Amenity.amenitiesThatContainsString("s");
+    public Result getAllAmenitiesWithFilter(String word) {
+        MongoCursor<Amenity> result = Amenity.amenitiesThatContainsString(word);
         ArrayList<String> stringsToReturn = new ArrayList<String>();
         while (result.hasNext()) {
             stringsToReturn.add("\"" + result.next().getDisplayName() + "\"");
