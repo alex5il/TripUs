@@ -22,14 +22,6 @@ tripUsServices.service('amenityService', ['Restangular', function(Restangular){
             //     $scope.amenities = amenities;
             // });
         },
-        mock: function(){
-            return ["pub","strip","supermarket"]
-
-            // baseAmenities.getList().then(function(amenities) {
-            //     console.log(amenities);
-            //     $scope.amenities = amenities;
-            // });
-        },
         get: function(amenityId) {
             Restangular.one('amenities', amenityId).then(function(amenity){
                 console.log(amenity);
