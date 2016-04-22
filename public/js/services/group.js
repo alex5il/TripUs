@@ -14,6 +14,12 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
         create: function(){
             return baseTrip.customPOST({name: "Test Group"}, "create", {}, {});
         },
+        join: function(){
+            return baseTrip.customPOST({groupKey: 666}, "join", {}, {});
+        },
+        joinMock: function(){
+            return true;
+        },
 
         groups: this.groups,
         _groupId: this._groupId,

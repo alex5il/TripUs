@@ -8,8 +8,12 @@
             <input type="text" class="form-control" id="groupName" placeholder="Group Name" ng-model="groupName">
         </div>
     </form>
+    <div class="row text-center" ng-if="!!groupCode">
+        <label class="col-md-12">{{groupCode}}</label>
+    </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="create(groupName)">OK</button>
+    <button class="btn btn-primary" type="button" ng-click="create(groupName)" ng-if="!groupCode">OK</button>
+    <button class="btn btn-primary" type="button" ng-click="join()" ng-if="!!groupCode">Join</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>

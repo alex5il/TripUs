@@ -6,12 +6,9 @@ tripUsControllers.controller('requirementsCtrl',
                  $scope.amenities = data;
             });
 
+            //Init reqs
             $scope.requirements = {
-                ratings: [{
-                    value: 3
-                }, {
-                    value: 2
-                }]
+                ratings: []
             };
 
             $scope.removeItem = function(index) {

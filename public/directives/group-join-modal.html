@@ -6,10 +6,14 @@
         <div class="form-group">
             <label for="groupCode">Group Code</label>
             <input type="text" class="form-control" id="groupCode" placeholder="Group Code" ng-model="groupCode">
+
+            <br>
+
+            <input type="text" class="form-control" id="userName" placeholder="Group Code" ng-model="userName">
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="join(groupCode)">OK</button>
+    <button class="btn btn-primary" type="button" ng-click="join(groupCode, userName)">OK</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
