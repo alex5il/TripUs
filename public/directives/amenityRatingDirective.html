@@ -2,8 +2,7 @@
 <div class="row">
     <div class="col-xs-1 col-xs-offset-4" style="margin-top:10px">
         <div class="form-group">
-            <!--<label>Amenities</label>-->
-            <select class="form-control">
+            <select class="form-control" ng-change="changeAmenity({value : currAmenity})" ng-model="currAmenity">
                 <option ng-repeat="amenity in amenities">{{amenity}}</option>
             </select>
         </div>

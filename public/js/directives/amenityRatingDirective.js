@@ -9,7 +9,8 @@ tripUsDirectives.directive('amenityRating', [function () {
             removeItem: '&',
             addItem: '&',
             item: "=",
-            amenities: "="
+            amenities: "=",
+            changeAmenity: '&'
         },
         link: function ($scope, element, attrs) {
             // Create rating

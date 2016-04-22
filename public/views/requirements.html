@@ -4,7 +4,8 @@
     </div>
 
     <!--ng-repeat on rating here-->
-    <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem($index)" add-item="addItem()" item="rating" amenities="amenities"></amenity-rating>
+    <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem($index)" add-item="addItem()" item="rating"
+                    amenities="amenities" change-amenity="changeAmenity(value)"></amenity-rating>
 
     <!--Add rating here-->
     <div class="row">

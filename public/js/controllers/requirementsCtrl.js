@@ -19,6 +19,16 @@ tripUsControllers.controller('requirementsCtrl',
                 $scope.requirements.ratings.push({
                     value: 1
                 });
+            };
+
+            // On change amenity
+            $scope.changeAmenity = function(value) {
+                console.log("crap");
+                //var index = $scope.amenities.indexOf(value);
+                //
+                //if (index > -1) {
+                //    $scope.amenities.splice(index, 1);
+                //}
             }
         }
     ]
