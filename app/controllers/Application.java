@@ -1,7 +1,7 @@
 package controllers;
 
 import com.mongodb.*;
-//import data.Trip;
+import data.Trip;
 import data.User;
 import org.jongo.MongoCollection;
 import play.*;
@@ -12,7 +12,7 @@ import views.html.*;
 public class Application extends Controller {
     public Result index() {
         //System.out.println(Trip.trips().find().as(Trip.class).next());
-        //System.out.println(Trip.findByTripLeader("Anton"));
+        System.out.println(Trip.findByTripLeader("Anton"));
 
         return ok();
     }
