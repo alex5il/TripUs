@@ -2,9 +2,11 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import data.Trip;
+import data.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -25,5 +27,36 @@ public class TripsController extends Controller {
         newTripForDb.insert();
 
         return ok(String.valueOf(groupKey));
+    }
+
+    public Result joinTrip() {
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        String tripGroupKey = values.get("groupKey")[0];
+        Trip tripForDb = Trip.findByKey(tripGroupKey);
+
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
+
+        String userName = values.get("userName")[0];
+        User user = new User(userName);
+        ArrayList<User> users = new ArrayList<User>();
+        User[] usersNew = new User[tripForDb.getUsers().length + 1];
+        boolean userIsInTrip = false;
+        for (int i = 0; i < tripForDb.getUsers().length; i++) {
+            if (tripForDb.getUsers()[i].getName().equals(userName)) {
+                System.out.println(userName + " Will login to Trip : " + tripForDb.getTripName());
+                return ok(String.valueOf("Your user is already in the trip"));
+            }
+            usersNew[i] = tripForDb.getUsers()[i];
+        }
+        usersNew[tripForDb.getUsers().length] = user;
+        tripForDb.setUsers(usersNew);
+        tripForDb.insert();
+
+        System.out.println(userName + " Will join to Trip : " + tripForDb.getTripName());
+
+
+        return created(String.valueOf("Your user added to the trip seccsesfuly"));
     }
 }
