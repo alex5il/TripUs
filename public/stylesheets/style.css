@@ -4,3 +4,13 @@
 .requirements {
 
 }
+
+.angular-google-map-container {
+    height: 400px;
+    width: 500px;
+}
+
+div.resultsContainer {
+    margin-top: 15px;
+    width: 700px;
+}

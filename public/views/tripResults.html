@@ -1,0 +1,24 @@
+0<div class="container resultsContainer">
+    <h4 class="subheading">Your Requested trip results are:</h4>
+    <div>loading pane</div>
+    <div class="row">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="" ng-click="changeRoute(0)" class="active">Menu 1</a></li>
+                <li><a href="" ng-click="changeRoute(1)">Menu 2</a></li>
+            </ul>
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            results
+            <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+                <ui-gmap-polyline ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible'
+                                  geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+            </ui-gmap-google-map>
+
+
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+            description
+        </div>
+    </div>
+</div>
