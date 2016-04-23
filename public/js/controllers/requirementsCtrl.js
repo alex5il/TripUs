@@ -2,6 +2,8 @@ tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', function ($scope, $location, $routeParams, group, amenityService, Restangular) {
             //var myGroup = group.getGroup($routeParams.groupId);
 
+            $scope.otherSelectedValues = [];
+
             amenityService.all().then(function(data) {
                  $scope.amenities = data;
             });
@@ -22,14 +24,14 @@ tripUsControllers.controller('requirementsCtrl',
             };
 
             // On change amenity
-            $scope.changeAmenity = function(value) {
-                console.log("crap");
-                //var index = $scope.amenities.indexOf(value);
-                //
-                //if (index > -1) {
-                //    $scope.amenities.splice(index, 1);
-                //}
-            }
+            //$scope.changeAmenity = function(newVal, index) {
+            //    // Fuck this shit for now , later optimize ---- nahhhhh
+            //
+            //    $scope.otherSelectedValues[index] = newVal;
+            //
+            //    // Remove undefined stuff
+            //    $scope.otherSelectedValues = $scope.otherSelectedValues.filter(function(n){ return n !== undefined });
+            //}
         }
     ]
 );

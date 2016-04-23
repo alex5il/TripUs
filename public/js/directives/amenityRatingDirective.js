@@ -10,7 +10,9 @@ tripUsDirectives.directive('amenityRating', [function () {
             addItem: '&',
             item: "=",
             amenities: "=",
-            changeAmenity: '&'
+            changeAmenity: '&',
+            amenityIndex: '=',
+            otherSelectedValues: "="
         },
         link: function ($scope, element, attrs) {
             // Create rating
@@ -27,6 +29,8 @@ tripUsDirectives.directive('amenityRating', [function () {
                 // 'value' is a string here!
                 $scope.item.value = Number(value);
             });
+
+
         }
     }
 }]);
