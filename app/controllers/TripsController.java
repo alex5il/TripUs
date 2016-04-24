@@ -30,15 +30,15 @@ public class TripsController extends Controller {
     }
 
     public Result joinTrip() {
-        final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        String tripGroupKey = values.get("groupKey")[0];
+        final JsonNode values = request().body().asJson();
+        String tripGroupKey = values.asText("groupKey");
         Trip tripForDb = Trip.findByKey(tripGroupKey);
 
         if (tripForDb == null) {
             return badRequest("Wrong Trip key");
         }
 
-        String userName = values.get("userName")[0];
+        String userName = values.asText("userName");
         User user = new User(userName);
         ArrayList<User> users = new ArrayList<User>();
         User[] usersNew = new User[tripForDb.getUsers().length + 1];
