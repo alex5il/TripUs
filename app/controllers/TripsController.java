@@ -17,11 +17,15 @@ public class TripsController extends Controller {
     public Result createTrip() {
         final JsonNode values = request().body().asJson();
         String tripGroupName = values.get("name").asText();
+        String userName = values.get("userName").asText();
         System.out.println("New trip created : " + tripGroupName);
         Random rn = new Random();
         int groupKey = rn.nextInt(1000) + 1;
 
         Trip newTripForDb = new Trip();
+        User leader = new User();
+        leader.setName(userName);
+        newTripForDb.setLeader(leader);
         newTripForDb.setTripName(tripGroupName);
         newTripForDb.setKey(String.valueOf(groupKey));
         newTripForDb.insert();
@@ -135,6 +139,9 @@ public class TripsController extends Controller {
 
     public Result getTripResults(String tripGroupKey) {
         Trip tripForDb = Trip.findByKey(tripGroupKey);
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
         return ok(tripForDb.getTripResults());
     }
 }
