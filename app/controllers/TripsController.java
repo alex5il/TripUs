@@ -132,4 +132,9 @@ public class TripsController extends Controller {
 
         return created(String.valueOf("Your user added to the trip successfully"));
     }
+
+    public Result getTripResults(String tripGroupKey) {
+        Trip tripForDb = Trip.findByKey(tripGroupKey);
+        return ok(tripForDb.getTripPoints());
+    }
 }
