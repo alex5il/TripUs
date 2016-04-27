@@ -135,6 +135,9 @@ public class TripsController extends Controller {
 
     public Result getTripResults(String tripGroupKey) {
         Trip tripForDb = Trip.findByKey(tripGroupKey);
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
         return ok(tripForDb.getTripResults());
     }
 }
