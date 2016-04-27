@@ -36,7 +36,7 @@ tripUsControllers.controller('groupJoinModalCtrl', ['$scope', '$location', 'grou
         // Validate stuff
 
         if ($scope.myForm.$valid) {
-            group.join().then(function(result){
+            group.join(groupCode, userName).then(function(result){
                 console.log(result);
                 $location.path("/requirements/" + $scope.groupCode + "/" + userName);
 
@@ -47,7 +47,7 @@ tripUsControllers.controller('groupJoinModalCtrl', ['$scope', '$location', 'grou
                 $uibModalStack.dismissAll();
             }, function(res){
                 $scope.joinResponse = res.data;
-            }) ;
+            });
         } else {
             // No power i know there are better ways...
             if (!groupCode) {

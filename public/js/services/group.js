@@ -10,11 +10,11 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
 
 
     return {
-        create: function(){
-            return baseTrip.customPOST({name: "Test Group"}, "create", {}, {});
+        create: function(groupName){
+            return baseTrip.customPOST({name: groupName}, "create", {}, {});
         },
-        join: function(){
-            return baseTrip.customPOST({groupKey: 666, userName: "asas"}, "join", {}, {});
+        join: function(groupKey, userName){
+            return baseTrip.customPOST({groupKey: groupKey, userName: userName}, "join", {}, {});
         }
 
         //groups: this.groups,
