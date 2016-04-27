@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import data.Pick;
 import data.Point;
 import data.Trip;
@@ -66,7 +67,10 @@ public class AlgorithmController extends Controller {
     private ArrayList<Point> genesArray;
 
     public Result index() {
-        String tripKey = "657";
+        // Getting group key
+        final JsonNode values = request().body().asJson();
+        String tripKey = values.get("groupKey").asText();
+
         MongoCursor<Point> pointsCursor;
         constraints = new HashMap<String, Integer>();
         Trip trip = Trip.findByKey(tripKey);
