@@ -32,6 +32,7 @@ tripUsControllers.controller('requirementsCtrl',
                 // Check user and group - from url
                 if (!$routeParams.groupId && !$routeParams.userName) {
                     $scope.errorMsg = "Url doesn't contain user or group key";
+                    $scope.okMsg = false;
                     return;
                 } else {
                     $scope.errorMsg = false;
@@ -40,15 +41,20 @@ tripUsControllers.controller('requirementsCtrl',
                 // Check for duplicates
                 if(hasDuplicates(tempReq)) {
                     $scope.errorMsg = "There are duplicates in amenities, remove them fist";
+                    $scope.okMsg = false;
                     return;
                 } else {
                     $scope.errorMsg = false;
                 }
 
                 // Send request
-                //group.reqSet(groupKey, userName, tempReq).then(function(response){
-                //
-                //});
+                group.reqSet($routeParams.groupId, $routeParams.userName, tempReq).then(function(response){
+                    $scope.errorMsg = false;
+                    $scope.okMsg = "Awesome data sent!";
+                }, function(res){
+                    $scope.errorMsg = res.data;
+                    $scope.okMsg = false;
+                });
             };
 
              // Check for duplicates
