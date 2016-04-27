@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import data.Pick;
 import data.Trip;
 import data.User;
 import play.mvc.Controller;
@@ -15,7 +16,7 @@ import java.util.Random;
 public class TripsController extends Controller {
     public Result createTrip() {
         final JsonNode values = request().body().asJson();
-        String tripGroupName = values.asText("name");
+        String tripGroupName = values.get("name").asText();
         System.out.println("New trip created : " + tripGroupName);
         Random rn = new Random();
         int groupKey = rn.nextInt(1000) + 1;
@@ -26,6 +27,47 @@ public class TripsController extends Controller {
         newTripForDb.insert();
 
         return ok(String.valueOf(groupKey));
+    }
+
+    public Result setReq() {
+        final JsonNode values = request().body().asJson();
+        String tripGroupKey = values.get("groupKey").asText();
+        Trip tripForDb = Trip.findByKey(tripGroupKey);
+
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
+
+        if (tripForDb.getUsers() == null) {
+            return badRequest("No users in this trip");
+        }
+
+        String userName = values.get("userName").asText();
+        User theUser = null;
+        for (int i = 0; i < tripForDb.getUsers().length; i++) {
+            if (tripForDb.getUsers()[i].getName().equals(userName)) {
+                theUser = tripForDb.getUsers()[i];
+                break;
+            }
+        }
+
+        if (theUser == null) {
+            return badRequest("Your user wasn't found");
+        }
+
+        JsonNode array = values.get("reqs");
+        if (array.isArray()) {
+            Pick[] picks = new Pick[array.size()];
+            int index = 0;
+            for (final JsonNode objNode : array) {
+                Pick newPick = new Pick(objNode.get("amenity").asText(), objNode.get("rank").asText());
+                picks[index] = newPick;
+                index++;
+            }
+            theUser.setRequirements(picks);
+            tripForDb.insert();
+        }
+        return ok("Your requests was updated");
     }
 
     public Result joinTrip() {

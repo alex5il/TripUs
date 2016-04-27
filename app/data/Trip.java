@@ -1,6 +1,7 @@
 package data;
 
 import org.jongo.MongoCollection;
+import org.jongo.RawResultHandler;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
@@ -19,6 +20,10 @@ public class Trip {
 
     public static MongoCollection trips() {
         return PlayJongo.getCollection("trips");
+    }
+
+    public static Object tripJSON() {
+        return trips().find().map(new RawResultHandler());
     }
 
     public static Trip findByKey(String key) {

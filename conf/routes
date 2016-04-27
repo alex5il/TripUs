@@ -9,7 +9,7 @@ GET         /AllAmenitiesFilter        controllers.AmenitiesController.getAllAme
 GET         /Alg                       controllers.AlgorithmController.index()
 POST        /Trip/create               controllers.TripsController.createTrip()
 POST        /Trip/join                 controllers.TripsController.joinTrip()
-
+POST        /Trip/user/reqSet        controllers.TripsController.setReq()
 
 GET         /                          controllers.Assets.at(path="/public", file="index.html")
 

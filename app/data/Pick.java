@@ -10,10 +10,32 @@ public class Pick {
     // auto
     @MongoObjectId
     private String _id;
+    private String amenity;
+    private String rank;
 
-    private int id;
+    public Pick(String amenityVal, String rankVal) {
+        this.amenity = amenityVal;
+        this.rank = rankVal;
+    }
 
-    public Pick() {}
+    public Pick() {
+    }
+
+    public String getAmenity() {
+        return amenity;
+    }
+
+    public void setAmenity(String amenity) {
+        this.amenity = amenity;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
     public String get_id() {
         return _id;
@@ -23,11 +45,4 @@ public class Pick {
         this._id = _id;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
