@@ -83,6 +83,17 @@ public class Trip {
         this.point = picks;
     }
 
+    public String getTripPoints() {
+        StringBuilder returnArrayJson = new StringBuilder("[");
+        for (int i = 0; i < point.length; i++) {
+            returnArrayJson.append("{\"name\":\"" + point[i].getName() + "\",\"amenity\":\"" + point[i].getAmenity() + "\",\"latitude\":\"" + point[i].getLatitude() + "\",\"amenity\":\"" + point[i].getLongitude() + "}");
+            if (i < point.length - 1)
+                returnArrayJson.append(",");
+        }
+        returnArrayJson.append("]");
+        return returnArrayJson.toString();
+    }
+
     public void insert() {
         trips().save(this);
     }
