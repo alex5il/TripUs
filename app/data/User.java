@@ -12,11 +12,20 @@ public class User {
     private String _id;
     private Pick[] requirements;
     private String name;
+    private Boolean isAdmin;
 
     public User() {}
 
     public User(String name) {
         this.name = name;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public Pick[] getRequirements() {
@@ -28,7 +37,7 @@ public class User {
     }
 
     public String getRequirementsJsonReturn() {
-        StringBuilder returnArrayJson = new StringBuilder("[");
+        StringBuilder returnArrayJson = new StringBuilder("{\"isLeader\":\"" + this.isAdmin.toString() + "\",\"reqs\":[");
         if (requirements != null) {
             for (int i = 0; i < requirements.length; i++) {
                 returnArrayJson.append("{ \"amenity\":\"" + requirements[i].getAmenity() + "\",\"rank\":\"" + requirements[i].getRank() + "\"}");
@@ -36,7 +45,7 @@ public class User {
                     returnArrayJson.append(",");
             }
         }
-        returnArrayJson.append("]");
+        returnArrayJson.append("]}");
         return returnArrayJson.toString();
     }
 

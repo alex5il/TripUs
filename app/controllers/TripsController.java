@@ -25,7 +25,10 @@ public class TripsController extends Controller {
         Trip newTripForDb = new Trip();
         User leader = new User();
         leader.setName(userName);
-        newTripForDb.setLeader(leader);
+        leader.setIsAdmin(true);
+        User[] users = new User[1];
+        users[0] = leader;
+        newTripForDb.setUsers(users);
         newTripForDb.setTripName(tripGroupName);
         newTripForDb.setKey(String.valueOf(groupKey));
         newTripForDb.insert();
@@ -114,6 +117,7 @@ public class TripsController extends Controller {
 
         String userName = values.get("userName").asText();
         User user = new User(userName);
+        user.setIsAdmin(false);
         ArrayList<User> users = new ArrayList<User>();
         Integer oldNumOfUsers = 0;
         if (tripForDb.getUsers() != null)
