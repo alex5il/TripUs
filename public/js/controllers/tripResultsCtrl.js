@@ -60,14 +60,14 @@ tripUsControllers.controller('tripResultsCtrl', function ($scope) {
                 editable: true,
                 draggable: true,
                 geodesic: true,
-                visible: false,
+                visible: true,
             }
         ];
 
-    $scope.currentPath = $scope.polylines[$scope.route];
-    $scope.changeRoute = function (routeNum) {
-        $scope.polylines[$scope.currentRoute].visible = false;
-        $scope.polylines[routeNum].visible = true;
-        $scope.currentRoute = routeNum;
-    };
+        $scope.currentPath = $scope.polylines[1];
+//    $scope.changeRoute = function (routeNum) {
+//        $scope.polylines[$scope.currentRoute].visible = false;
+//        $scope.polylines[routeNum].visible = true;
+//        $scope.currentRoute = routeNum;
+//    };
 });
