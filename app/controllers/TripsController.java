@@ -37,19 +37,22 @@ public class TripsController extends Controller {
             return badRequest("Wrong Trip key");
         }
 
-        String userName = values.asText("userName");
+        String userName = values.get("userName").asText();
         User user = new User(userName);
         ArrayList<User> users = new ArrayList<User>();
-        User[] usersNew = new User[tripForDb.getUsers().length + 1];
+        Integer oldNumOfUsers = 0;
+        if (tripForDb.getUsers() != null)
+            oldNumOfUsers = tripForDb.getUsers().length;
+        User[] usersNew = new User[oldNumOfUsers + 1];
         boolean userIsInTrip = false;
-        for (int i = 0; i < tripForDb.getUsers().length; i++) {
+        for (int i = 0; i < oldNumOfUsers; i++) {
             if (tripForDb.getUsers()[i].getName().equals(userName)) {
                 System.out.println(userName + " Will login to Trip : " + tripForDb.getTripName());
                 return ok(String.valueOf("Your user is already in the trip"));
             }
             usersNew[i] = tripForDb.getUsers()[i];
         }
-        usersNew[tripForDb.getUsers().length] = user;
+        usersNew[oldNumOfUsers] = user;
         tripForDb.setUsers(usersNew);
         tripForDb.insert();
 
