@@ -14,13 +14,24 @@
 
             <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Group Name" ng-model="groupName" required>
         </div>
+
+        <div class="form-group" ng-class="{'has-error': createForm.userName.$error.required && createForm.userName.$dirty}">
+            <label for="userName">User name</label>
+            <span role="alert">
+              <span class="error" ng-show="createForm.userName.$error.required && createForm.userName.$dirty">
+                 <label class="control-label">Required!</label>
+              </span>
+            </span>
+
+            <input placeholder="User name" type="text" class="form-control" name="userName" id="userName" placeholder="Group Code" ng-model="userName" required>
+        </div>
     </form>
     <div class="row text-center" ng-if="!!groupCode">
         <label class="col-md-12 control-label">{{groupCode}}</label>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="create(groupName)" ng-if="!groupCode">OK</button>
+    <button class="btn btn-primary" type="button" ng-click="create(groupName, userName)" ng-if="!groupCode">OK</button>
     <button class="btn btn-primary" type="button" ng-click="join()" ng-if="!!groupCode">Join</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>

@@ -1,16 +1,20 @@
 tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'group', '$uibModalInstance','$uibModal',
     '$uibModalStack', '$timeout',
     function ($scope, $location, group, modalInstance, $modal, $uibModalStack, $timeout) {
-    $scope.create = function(groupName){
+    $scope.create = function(groupName, userName){
         if (!$scope.createForm.$valid) {
             if (!groupName) {
                 $scope.createForm.groupName.$setValidity("required", false);
                 $scope.createForm.groupName.$setDirty();
+            } else if (!userName) {
+                $scope.createForm.userName.$setValidity("required", false);
+                $scope.createForm.userName.$setDirty();
             }
         } else {
             // Create group
-            group.create(groupName).then(function(groupCode){
+            group.create(groupName, userName).then(function(groupCode){
                 $scope.groupCode = groupCode;
+                $location.path("/requirements/" + $scope.groupCode + "/" + userName);
             });
         }
     };

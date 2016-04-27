@@ -7,8 +7,8 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
     var baseTrip = Restangular.all('Trip');
 
     return {
-        create: function(groupName){
-            return baseTrip.customPOST({name: groupName}, "create", {}, {});
+        create: function(groupName, userName){
+            return baseTrip.customPOST({name: groupName, userName:userName}, "create", {}, {});
         },
         join: function(groupKey, userName){
             return baseTrip.customPOST({groupKey: groupKey, userName: userName}, "join", {}, {});
