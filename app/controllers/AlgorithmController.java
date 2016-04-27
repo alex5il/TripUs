@@ -1,6 +1,9 @@
 package controllers;
 
+import data.Pick;
 import data.Point;
+import data.Trip;
+import data.User;
 import org.jongo.MongoCursor;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -63,10 +66,34 @@ public class AlgorithmController extends Controller {
     private ArrayList<Point> genesArray;
 
     public Result index() {
+        String tripKey = "270";
+        MongoCursor<Point> pointsCursor;
+        User[] users = Trip.findByKey(tripKey).getUsers();
+
+        // Building map of constraints
+        // For every user participating in the trip
+        for (int i = 0; i < users.length; i++) {
+            Pick[] picks = users[i].getRequirements();
+
+            // For every requirement of the user
+            for (int j = 0; j < picks.length; j++) {
+
+                // If constraints already contain given amenity
+                if (constraints.containsKey(picks[j].getAmenity())) {
+                    // Increase the rank
+                    constraints.put(picks[j].getAmenity(),
+                            constraints.get(picks[j].getAmenity()) +
+                                    Integer.parseInt(picks[j].getRank()));
+                } else {
+                    // Put new amenity
+                    constraints.put(picks[j].getAmenity(),
+                            Integer.parseInt(picks[j].getRank()));
+                }
+            }
+        }
+
         // Test data
         // ****************************************************************************** //
-//        String tripKey = "270";
-//        Trip trip = Trip.findByKey(tripKey);
         constraints = new HashMap<String, Integer>();
 
         constraints.put("pub", 6);
@@ -75,7 +102,6 @@ public class AlgorithmController extends Controller {
         constraints.put("theatre", 1);
         // ****************************************************************************** //
 
-        MongoCursor<Point> pointsCursor;
         genesArray = new ArrayList<Point>();
 
         // Calculating total points in the trip
