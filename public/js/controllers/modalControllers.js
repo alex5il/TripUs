@@ -37,7 +37,6 @@ tripUsControllers.controller('groupJoinModalCtrl', ['$scope', '$location', 'grou
 
         if ($scope.myForm.$valid) {
             group.join(groupCode, userName).then(function(result){
-                console.log(result);
                 $location.path("/requirements/" + $scope.groupCode + "/" + userName);
 
 

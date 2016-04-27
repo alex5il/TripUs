@@ -15,6 +15,9 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
         },
         reqSet: function(groupKey, userName, reqs){
             return baseTrip.customPOST({groupKey: groupKey, userName: userName, reqs:reqs}, "user/reqSet", {}, {});
+        },
+        reqGet: function(groupKey, userName){
+            return baseTrip.customPOST({groupKey: groupKey, userName: userName}, "user/reqGet", {}, {});
         }
     };
 }]);

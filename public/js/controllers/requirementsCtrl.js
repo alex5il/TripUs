@@ -1,15 +1,28 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', function ($scope, $location, $routeParams, group, amenityService, Restangular) {
+
+            $scope.requirements = {
+                ratings: []
+            };
+
+            // Get data from server if user was already at this group
+            group.reqGet($routeParams.groupId, $routeParams.userName).then(function(res){ // Old user
+                _(res).forEach(function (n) {
+                    n.selectedAmenity = n.amenity;
+                    n.value = n.rank;
+
+                    $scope.requirements.ratings.push(n);
+                });
+
+            },function(res){ // New user
+                console.log(res);
+            });
+
             $scope.otherSelectedValues = [];
 
             amenityService.all().then(function(data) {
                  $scope.amenities = data;
             });
-
-            //Init reqs
-            $scope.requirements = {
-                ratings: []
-            };
 
             $scope.removeItem = function(index) {
                 $scope.requirements.ratings.splice(index, 1);

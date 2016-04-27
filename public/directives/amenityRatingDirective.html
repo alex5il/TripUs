@@ -6,7 +6,7 @@
                     <!--ng-options="amenity as amenity for amenity in amenities | duplicatesFilter:amenityIndex:otherSelectedValues">-->
 
                 <!--<option value="" selected="selected">Choose</option>-->
-            <select class="form-control" ng-change="changeAmenity({value : currAmenity})" ng-model="selectedAmenity">
+            <select class="form-control" ng-change="changeAmenity({value : currAmenity})" ng-model="item.selectedAmenity">
                 <option ng-repeat="amenity in amenities">{{amenity}}</option>
             </select>
         </div>

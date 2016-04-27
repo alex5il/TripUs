@@ -17,7 +17,7 @@
 
     <!--ng-repeat on rating here-->
     <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem($index)" add-item="addItem()" item="rating"
-                    selected-amenity="rating.selectedAmenity" amenities="amenities"
+                    amenities="amenities"
                     change-amenity="changeAmenity(value, index)" amenity-index="$index" other-selected-values="otherSelectedValues"></amenity-rating>
 
     <!--Add rating here-->
