@@ -26,6 +26,8 @@ tripUsControllers.controller('requirementsCtrl',
                 var tempReq = $scope.requirements.ratings.slice(0);
 
                 _(tempReq).forEach(function (n) {
+                    n.amenity = n.selectedAmenity;
+                    n.rank = n.value;
                     delete n.$$hashKey
                 });
 

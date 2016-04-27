@@ -13,8 +13,8 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
         join: function(groupKey, userName){
             return baseTrip.customPOST({groupKey: groupKey, userName: userName}, "join", {}, {});
         },
-        c: function(groupKey, userName){
-            return baseTrip.customPOST({groupKey: groupKey, userName: userName, reqs:[{amenity:"", rank:""}, {amenity:"", rank:""}]}, "user/reqSet", {}, {});
+        reqSet: function(groupKey, userName, reqs){
+            return baseTrip.customPOST({groupKey: groupKey, userName: userName, reqs:reqs}, "user/reqSet", {}, {});
         }
     };
 }]);
