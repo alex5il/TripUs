@@ -6,15 +6,17 @@ tripUsControllers.controller('requirementsCtrl',
             };
 
             // Get data from server if user was already at this group
-            group.reqGet($routeParams.groupId, $routeParams.userName).then(function(res){ // Old user
-                _(res).forEach(function (n) {
+            group.reqGet($routeParams.groupId, $routeParams.userName).then(function(res){
+                $scope.isLeader = res.isLeader;
+
+                _(res.reqs).forEach(function (n) {
                     n.selectedAmenity = n.amenity;
                     n.value = n.rank;
 
                     $scope.requirements.ratings.push(n);
                 });
 
-            },function(res){ // New user
+            },function(res){ // Err
                 console.log(res);
             });
 
