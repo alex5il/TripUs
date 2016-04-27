@@ -72,6 +72,10 @@ tripUsControllers.controller('requirementsCtrl',
                 });
             };
 
+            $scope.searchTrip = function() {
+                // Call to start alghorithm
+            };
+
              // Check for duplicates
             function hasDuplicates(values) {
                 var valueArr = values.map(function(item){ return item.selectedAmenity });
