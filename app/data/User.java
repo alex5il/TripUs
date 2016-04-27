@@ -29,10 +29,12 @@ public class User {
 
     public String getRequirementsJsonReturn() {
         StringBuilder returnArrayJson = new StringBuilder("[");
-        for (int i = 0; i < requirements.length; i++) {
-            returnArrayJson.append("{ \"amenity\":\"" + requirements[i].getAmenity() + "\",\"rank\":\"" + requirements[i].getRank() + "\"}");
-            if (i < requirements.length - 1)
-                returnArrayJson.append(",");
+        if (requirements != null) {
+            for (int i = 0; i < requirements.length; i++) {
+                returnArrayJson.append("{ \"amenity\":\"" + requirements[i].getAmenity() + "\",\"rank\":\"" + requirements[i].getRank() + "\"}");
+                if (i < requirements.length - 1)
+                    returnArrayJson.append(",");
+            }
         }
         returnArrayJson.append("]");
         return returnArrayJson.toString();

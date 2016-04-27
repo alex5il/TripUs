@@ -13,7 +13,7 @@ public class Trip {
     private String _id;
     private String tripLeader, tripName, key;
     private User[] users;
-    private Point[] point;
+    private Result[] results;
 
     public Trip() {
     }
@@ -33,6 +33,14 @@ public class Trip {
 
     public static Trip findByTripLeader(String tripLeader) {
         return trips().findOne("{tripLeader: #}", tripLeader).as(Trip.class);
+    }
+
+    public Result[] getResults() {
+        return results;
+    }
+
+    public void setResults(Result[] results) {
+        this.results = results;
     }
 
     public String get_id() {
@@ -75,23 +83,34 @@ public class Trip {
         this.users = users;
     }
 
-    public Point[] getPoinst() {
-        return point;
-    }
-
-    public void setPoints(Point[] picks) {
-        this.point = picks;
-    }
-
-    public String getTripPoints() {
+    public String getTripResults() {
         StringBuilder returnArrayJson = new StringBuilder("[");
-        for (int i = 0; i < point.length; i++) {
-            returnArrayJson.append("{\"name\":\"" + point[i].getName() + "\",\"amenity\":\"" + point[i].getAmenity() + "\",\"latitude\":\"" + point[i].getLatitude() + "\",\"amenity\":\"" + point[i].getLongitude() + "}");
-            if (i < point.length - 1)
-                returnArrayJson.append(",");
+        if (this.results != null) {
+            for (int i = 0; i < results.length; i++) {
+                returnArrayJson.append(results[i].getTripResult());
+                if (i < results.length - 1)
+                    returnArrayJson.append(",");
+            }
         }
         returnArrayJson.append("]");
         return returnArrayJson.toString();
+    }
+
+    public void addAnotherResult(Result result) {
+        Result[] resultsNew;
+        if (this.getResults() != null) {
+            resultsNew = new Result[this.getResults().length + 1];
+            for (int i = 0; i < results.length; i++) {
+                resultsNew[i] = results[i];
+            }
+            resultsNew[results.length] = result;
+        } else {
+            resultsNew = new Result[1];
+            resultsNew[0] = result;
+        }
+
+        this.setResults(resultsNew);
+        this.insert();
     }
 
     public void insert() {
