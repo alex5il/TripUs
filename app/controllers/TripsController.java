@@ -70,6 +70,35 @@ public class TripsController extends Controller {
         return ok("Your requests was updated");
     }
 
+    public Result getReq() {
+        final JsonNode values = request().body().asJson();
+        String tripGroupKey = values.get("groupKey").asText();
+        Trip tripForDb = Trip.findByKey(tripGroupKey);
+
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
+
+        if (tripForDb.getUsers() == null) {
+            return badRequest("No users in this trip");
+        }
+
+        String userName = values.get("userName").asText();
+        User theUser = null;
+        for (int i = 0; i < tripForDb.getUsers().length; i++) {
+            if (tripForDb.getUsers()[i].getName().equals(userName)) {
+                theUser = tripForDb.getUsers()[i];
+                break;
+            }
+        }
+
+        if (theUser == null) {
+            return badRequest("Your user wasn't found");
+        }
+
+        return ok(theUser.getRequirementsJsonReturn());
+    }
+
     public Result joinTrip() {
         final JsonNode values = request().body().asJson();
         String tripGroupKey = values.get("groupKey").asText();
