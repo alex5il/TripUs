@@ -135,6 +135,6 @@ public class TripsController extends Controller {
 
     public Result getTripResults(String tripGroupKey) {
         Trip tripForDb = Trip.findByKey(tripGroupKey);
-        return ok(tripForDb.getTripPoints());
+        return ok(tripForDb.getTripResults());
     }
 }
