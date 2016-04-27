@@ -27,6 +27,17 @@ public class User {
         this.requirements = requirements;
     }
 
+    public String getRequirementsJsonReturn() {
+        StringBuilder returnArrayJson = new StringBuilder("[");
+        for (int i = 0; i < requirements.length; i++) {
+            returnArrayJson.append("{ \"amenity\":\"" + requirements[i].getAmenity() + "\",\"rank\":\"" + requirements[i].getRank() + "\"}");
+            if (i < requirements.length - 1)
+                returnArrayJson.append(",");
+        }
+        returnArrayJson.append("]");
+        return returnArrayJson.toString();
+    }
+
     public String get_id() {
         return _id;
     }

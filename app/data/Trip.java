@@ -27,6 +27,7 @@ public class Trip {
     }
 
     public static Trip findByKey(String key) {
+
         return trips().findOne("{key: #}", key).as(Trip.class);
     }
 
