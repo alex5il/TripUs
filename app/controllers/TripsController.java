@@ -59,6 +59,6 @@ public class TripsController extends Controller {
         System.out.println(userName + " Will join to Trip : " + tripForDb.getTripName());
 
 
-        return created(String.valueOf("Your user added to the trip seccsesfuly"));
+        return created(String.valueOf("Your user added to the trip successfully"));
     }
 }
