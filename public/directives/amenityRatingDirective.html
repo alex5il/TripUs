@@ -6,9 +6,8 @@
                     <!--ng-options="amenity as amenity for amenity in amenities | duplicatesFilter:amenityIndex:otherSelectedValues">-->
 
                 <!--<option value="" selected="selected">Choose</option>-->
-            <select class="form-control" ng-change="changeAmenity({value : currAmenity})" ng-model="currAmenity">
+            <select class="form-control" ng-change="changeAmenity({value : currAmenity})" ng-model="selectedAmenity">
                 <option ng-repeat="amenity in amenities">{{amenity}}</option>
-            </select>
             </select>
         </div>
     </div>
@@ -20,10 +19,10 @@
 
     <!--Remove rating here-->
     <div class="col-xs-1">
-            <span class="fa-stack fa-2x clickable" ng-click="removeItem()">
-                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
-            </span>
+        <span class="fa-stack fa-2x clickable" ng-click="removeItem()">
+            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+            <i class="fa fa-minus-square fa-stack-1x fa-inverse"></i>
+        </span>
     </div>
 
 </div>

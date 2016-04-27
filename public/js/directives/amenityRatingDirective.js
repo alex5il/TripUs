@@ -10,6 +10,8 @@ tripUsDirectives.directive('amenityRating', [function () {
             addItem: '&',
             item: "=",
             amenities: "=",
+            selectedAmenity: "=",
+
             changeAmenity: '&',
             amenityIndex: '=',
             otherSelectedValues: "="
@@ -21,6 +23,8 @@ tripUsDirectives.directive('amenityRating', [function () {
             // Init value
             ele.attr('value', $scope.item.value);
 
+            ele.data('amenity', $scope.currAmenity);
+
             // Init rating
             ele.rating();
 
@@ -30,7 +34,8 @@ tripUsDirectives.directive('amenityRating', [function () {
                 $scope.item.value = Number(value);
             });
 
-
+            //Setting first option as selected in configuration select
+            $scope.selectedAmenity = $scope.amenities[0];
         }
     }
 }]);
