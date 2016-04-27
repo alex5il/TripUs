@@ -50,6 +50,8 @@ public class AlgorithmController extends Controller {
     private final int MIN_POINTS = 10;
     private final int ITERATIONS = 100;
     private final int POINTS_MULTIPLIER = 3;
+    private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
+    private final int MAX_POPULATION = POPULATION_SIZE * 10;
 
     private double maxFitness;
     private double minFitness;
@@ -135,6 +137,7 @@ public class AlgorithmController extends Controller {
     private void evolution() {
         double fitnessVariety = maxFitness - minFitness;
         double selectionProbability;
+
         Random rnd = new Random();
         ArrayList<Individual> toCrossover = new ArrayList<Individual>();
 
@@ -146,10 +149,14 @@ public class AlgorithmController extends Controller {
             selectionProbability = (individual.getFitness() - minFitness) / (fitnessVariety);
 
             // The individual is not selected (removed)
-            if (selectionProbability < rnd.nextDouble()) {
+            // Only if the population is not too low
+            if (population.size() > MIN_POPULATION &&
+                    selectionProbability < rnd.nextDouble()) {
                 it.remove();
-            } else if (rnd.nextDouble() <= P_CROSS) {
+            } else if (population.size() < MAX_POPULATION &&
+                    rnd.nextDouble() <= P_CROSS) {
                 // The individual is chosen for crossover
+                // Only if the population is not too high
                 toCrossover.add(individual);
             } else if (rnd.nextDouble() <= P_MUT) {
                 // Performing mutation
@@ -255,6 +262,7 @@ public class AlgorithmController extends Controller {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
         double fitness = 0;
+        int multiplier = 1;
 
         // Need the hash map to check that enough POIs of the same
         // amenity were already added to the trip.
@@ -279,6 +287,11 @@ public class AlgorithmController extends Controller {
             // If amenity is found in the constraints
             if (constraints.containsKey(point.getAmenity()) &&
                     leftovers.get(point.getAmenity()) > 0) {
+                // If a new constraint is met
+                if (leftovers.get(point.getAmenity()) == constraints.get(point.getAmenity())) {
+                    multiplier++;
+                }
+
                 // Increase the fitness
                 fitness += constraints.get(point.getAmenity());
 
@@ -287,8 +300,9 @@ public class AlgorithmController extends Controller {
             }
         }
 
-        // Divide according to difference in distance
-        fitness /= ((maxLong - minLong) + (maxLat - minLat));
+        // Multiply by the amount of constraints met and
+        // divide according to difference in distance
+        fitness = (fitness * multiplier) / ((maxLong - minLong) + (maxLat - minLat));
 
         // Calculating max and min population fitness for further calculations
         if (maxFitness < fitness) {
