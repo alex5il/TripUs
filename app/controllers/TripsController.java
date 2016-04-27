@@ -7,7 +7,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -31,7 +30,7 @@ public class TripsController extends Controller {
 
     public Result joinTrip() {
         final JsonNode values = request().body().asJson();
-        String tripGroupKey = values.asText("groupKey");
+        String tripGroupKey = values.get("groupKey").asText();
         Trip tripForDb = Trip.findByKey(tripGroupKey);
 
         if (tripForDb == null) {
