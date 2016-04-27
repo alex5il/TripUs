@@ -13,7 +13,7 @@ public class Trip {
     private String _id;
     private String tripLeader, tripName, key;
     private User[] users;
-    private Pick[] picks;
+    private Point[] point;
 
     public Trip() {
     }
@@ -75,12 +75,12 @@ public class Trip {
         this.users = users;
     }
 
-    public Pick[] getPicks() {
-        return picks;
+    public Point[] getPoinst() {
+        return point;
     }
 
-    public void setPicks(Pick[] picks) {
-        this.picks = picks;
+    public void setPoints(Point[] picks) {
+        this.point = picks;
     }
 
     public void insert() {
