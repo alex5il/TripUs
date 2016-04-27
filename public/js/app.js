@@ -1,4 +1,4 @@
-var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices', 'tripUsFilters', 'restangular', 'uiGmapgoogle-maps']);
+var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices', 'tripUsFilters', 'restangular', 'uiGmapgoogle-maps', 'angular-loading-bar']);
 
 var tripUsServices = angular.module('tripUsServices', []);
 var tripUsDirectives = angular.module('tripUsDirectives', ['tripUsServices']);

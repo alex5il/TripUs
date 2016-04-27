@@ -2,10 +2,17 @@
     <h3 class="modal-title">Create a group</h3>
 </div>
 <div class="modal-body">
-    <form>
-        <div class="form-group">
+    <form name="createForm">
+        <div class="form-group" ng-class="{'has-error': createForm.groupName.$error.required && createForm.groupName.$dirty}">
             <label for="groupName">Group Name</label>
-            <input type="text" class="form-control" id="groupName" placeholder="Group Name" ng-model="groupName">
+
+            <span role="alert">
+              <span class="error" ng-show="createForm.groupName.$error.required && createForm.groupName.$dirty">
+                 <label class="control-label">Required!</label>
+              </span>
+            </span>
+
+            <input type="text" class="form-control" id="groupName" name="groupName" placeholder="Group Name" ng-model="groupName" required>
         </div>
     </form>
     <div class="row text-center" ng-if="!!groupCode">

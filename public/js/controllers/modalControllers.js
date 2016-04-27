@@ -1,9 +1,18 @@
-tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'group', '$uibModalInstance','$uibModal', '$uibModalStack', function ($scope, $location, group, modalInstance, $modal, $uibModalStack) {
+tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'group', '$uibModalInstance','$uibModal',
+    '$uibModalStack', '$timeout',
+    function ($scope, $location, group, modalInstance, $modal, $uibModalStack, $timeout) {
     $scope.create = function(groupName){
-        // Create group
-        group.create(groupName).then(function(groupCode){
-            $scope.groupCode = groupCode;
-        });
+        if (!$scope.createForm.$valid) {
+            if (!groupName) {
+                $scope.createForm.groupName.$setValidity("required", false);
+                $scope.createForm.groupName.$setDirty();
+            }
+        } else {
+            // Create group
+            group.create(groupName).then(function(groupCode){
+                $scope.groupCode = groupCode;
+            });
+        }
     };
 
     $scope.join = function() {
@@ -19,11 +28,6 @@ tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'g
             controller: 'groupJoinModalCtrl',
             size: 'md'
         });
-
-        //modalInstance.close();
-
-        //setTimeout(console.log($("span .fa.fa-sign-in").parent().click()), 1000);
-        //$location.path("/requirements/" + $scope.groupKey);
     };
 
     $scope.cancel = function () {
@@ -38,8 +42,6 @@ tripUsControllers.controller('groupJoinModalCtrl', ['$scope', '$location', 'grou
         if ($scope.myForm.$valid) {
             group.join(groupCode, userName).then(function(result){
                 $location.path("/requirements/" + $scope.groupCode + "/" + userName);
-
-
                 modalInstance.close();
 
                 // Dismiss all hack
