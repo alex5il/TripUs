@@ -47,11 +47,11 @@ public class AlgorithmController extends Controller {
         }
     }
 
-    private final int POPULATION_SIZE = 1000;
+    private final int POPULATION_SIZE = 100;
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int ITERATIONS = 100;
+    private final int ITERATIONS = 10;
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
@@ -66,9 +66,11 @@ public class AlgorithmController extends Controller {
     private ArrayList<Point> genesArray;
 
     public Result index() {
-        String tripKey = "270";
+        String tripKey = "657";
         MongoCursor<Point> pointsCursor;
-        User[] users = Trip.findByKey(tripKey).getUsers();
+        constraints = new HashMap<String, Integer>();
+        Trip trip = Trip.findByKey(tripKey);
+        User[] users = trip.getUsers();
 
         // Building map of constraints
         // For every user participating in the trip
@@ -94,12 +96,12 @@ public class AlgorithmController extends Controller {
 
         // Test data
         // ****************************************************************************** //
-        constraints = new HashMap<String, Integer>();
-
-        constraints.put("pub", 6);
-        constraints.put("casino", 2);
-        constraints.put("boat_sharing", 3);
-        constraints.put("theatre", 1);
+//        constraints = new HashMap<String, Integer>();
+//
+//        constraints.put("pub", 6);
+//        constraints.put("casino", 2);
+//        constraints.put("boat_sharing", 3);
+//        constraints.put("theatre", 1);
         // ****************************************************************************** //
 
         genesArray = new ArrayList<Point>();
@@ -156,6 +158,10 @@ public class AlgorithmController extends Controller {
         }
 
         Individual best = bestIndividual();
+
+        Point[] track = toTrack(best.genome);
+
+        trip.addAnotherResult(new data.Result("1", track));
 
         return ok();
     }
@@ -342,7 +348,7 @@ public class AlgorithmController extends Controller {
     }
 
     private Individual bestIndividual() {
-        double bestFitness = 0;
+        double bestFitness = -1;
         Individual bestInd = null;
 
         // Searching for the fittest individual
@@ -354,5 +360,101 @@ public class AlgorithmController extends Controller {
         }
 
         return bestInd;
+    }
+
+    private Point[] toTrack(HashSet<Point> genome) {
+        double minDist = 0, dist;
+        Point currPoint, nextPoint = null;
+        Point[] track = new Point[pointsInTrip];
+
+        // Copying the hash set to not to make changes in the original one
+        HashSet<Point> tempGenome = new HashSet<Point>(genome);
+
+        // Calculating the starting point
+        currPoint = calcStartingPoint(tempGenome);
+
+        // Adding starting point
+        track[0] = currPoint;
+        tempGenome.remove(currPoint);
+
+        // Compute points for the track
+        for (int i = 1; i < track.length; i++) {
+            minDist = Double.MAX_VALUE;
+
+            // For all the remaining points of genome
+            for (Point point : tempGenome) {
+                // Calculate distance
+                dist = Math.sqrt(Math.pow(point.getLongitude() - currPoint.getLongitude(), 2) +
+                        Math.pow(point.getLatitude() - currPoint.getLatitude(), 2));
+
+                // If the distance is minimal
+                if (dist < minDist) {
+                    minDist = dist;
+                    nextPoint = point;
+                }
+            }
+
+            // Add the closest point to track
+            track[i] = nextPoint;
+            tempGenome.remove(nextPoint);
+            currPoint = nextPoint;
+        }
+
+        return track;
+    }
+
+    private Point calcStartingPoint(HashSet<Point> genome) {
+        double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
+        double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
+        int currRank = 0;
+        Point left = null, right = null, top = null, bottom = null, startingPoint;
+
+        // Searching for extremum points
+        for (Point point : genome) {
+            // Calculating min and max longitude and latitude
+            if (maxLong < point.getLongitude()) {
+                maxLong = point.getLongitude();
+                right = point;
+            }
+            if (minLong > point.getLongitude()) {
+                minLong = point.getLongitude();
+                left = point;
+            }
+            if (maxLat < point.getLatitude()) {
+                maxLat = point.getLatitude();
+                top = point;
+            }
+            if (minLat > point.getLatitude()) {
+                minLat = point.getLatitude();
+                bottom = point;
+            }
+        }
+
+        // Default - left extremum point
+        startingPoint = left;
+
+        // Searching for the most wanted extremum point
+        if (constraints.containsKey(top.getAmenity()) &&
+                constraints.get(top.getAmenity()) > currRank) {
+            startingPoint = top;
+            currRank = constraints.get(top.getAmenity());
+        }
+        if (constraints.containsKey(bottom.getAmenity()) &&
+                constraints.get(bottom.getAmenity()) > currRank) {
+            startingPoint = bottom;
+            currRank = constraints.get(bottom.getAmenity());
+        }
+        if (constraints.containsKey(left.getAmenity()) &&
+                constraints.get(left.getAmenity()) > currRank) {
+            startingPoint = left;
+            currRank = constraints.get(left.getAmenity());
+        }
+        if (constraints.containsKey(right.getAmenity()) &&
+                constraints.get(right.getAmenity()) > currRank) {
+            startingPoint = right;
+            currRank = constraints.get(right.getAmenity());
+        }
+
+        return startingPoint;
     }
 }
