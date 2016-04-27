@@ -13,7 +13,7 @@ tripUs.config(['$routeProvider', 'uiGmapGoogleMapApiProvider',
                 templateUrl: '/assets/views/homePartial.html',
                 controller: 'homeCtrl'
         })
-        .when('/requirements/:groupId', {
+        .when('/requirements/:groupId/:userName', {
                 templateUrl: '/assets/views/requirements.html',
                 controller: 'requirementsCtrl'
         })

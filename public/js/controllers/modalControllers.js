@@ -32,24 +32,38 @@ tripUsControllers.controller('groupCreatorModalCtrl', ['$scope', '$location', 'g
 }]);
 
 tripUsControllers.controller('groupJoinModalCtrl', ['$scope', '$location', 'group', '$uibModalInstance', '$uibModalStack', function ($scope, $location, group, modalInstance, $uibModalStack) {
-    $scope.join = function(groupCode){
-        // Add user
-        $scope.myGroup = group.getGroup(groupCode);
+    $scope.join = function(groupCode, userName){
+        // Validate stuff
 
-        if (angular.isDefined($scope.myGroup)) {
-            console.log("you have joined group - '" + $scope.myGroup.name + "'");
-            $location.path("/requirements/" + $scope.groupCode);
+        if ($scope.myForm.$valid) {
+            group.join().then(function(result){
+                console.log(result);
+                $location.path("/requirements/" + $scope.groupCode + "/" + userName);
+
+
+                modalInstance.close();
+
+                // Dismiss all hack
+                $uibModalStack.dismissAll();
+            }, function(res){
+                $scope.joinResponse = res.data;
+            }) ;
         } else {
-            console.log("no group found");
+            // No power i know there are better ways...
+            if (!groupCode) {
+                $scope.myForm.groupCode.$setValidity("required", false);
+                $scope.myForm.groupCode.$setDirty();
+            } else if (!userName) {
+                $scope.myForm.userName.$setValidity("required", false);
+                $scope.myForm.userName.$setDirty();
+            }
         }
-        modalInstance.close();
 
-        $uibModalStack.dismissAll();
     };
     $scope.cancel = function () {
         modalInstance.dismiss('cancel');
 
-
+        // Dismiss all hack
         $uibModalStack.dismissAll();
     };
 }]);

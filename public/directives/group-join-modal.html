@@ -2,15 +2,33 @@
     <h3 class="modal-title">Join a group</h3>
 </div>
 <div class="modal-body">
-    <form>
-        <div class="form-group">
+    <form name="myForm">
+        <div class="form-group" ng-class="{'has-error': myForm.groupCode.$error.required && myForm.groupCode.$dirty}">
             <label for="groupCode">Group Code</label>
-            <input type="text" class="form-control" id="groupCode" placeholder="Group Code" ng-model="groupCode">
+            <span role="alert">
+              <span class="error" ng-show="myForm.groupCode.$error.required && myForm.groupCode.$dirty">
+                 <label class="control-label">Required!</label>
+              </span>
+            </span>
 
-            <br>
-
-            <input type="text" class="form-control" id="userName" placeholder="Group Code" ng-model="userName">
+            <input placeholder="Group Code" type="text" class="form-control" name="groupCode" id="groupCode" placeholder="Group Code" ng-model="groupCode" required>
         </div>
+
+        <div class="form-group" ng-class="{'has-error': myForm.userName.$error.required && myForm.userName.$dirty}">
+            <label for="groupCode">User name</label>
+            <span role="alert">
+              <span class="error" ng-show="myForm.userName.$error.required && myForm.userName.$dirty">
+                 <label class="control-label">Required!</label>
+              </span>
+            </span>
+
+            <input placeholder="User name" type="text" class="form-control" name="userName" id="userName" placeholder="Group Code" ng-model="userName" required>
+        </div>
+
+        <div class="row text-center has-error" ng-if="!!joinResponse">
+            <label class="col-md-12 control-label">{{joinResponse}}</label>
+        </div>
+
     </form>
 </div>
 <div class="modal-footer">

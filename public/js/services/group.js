@@ -5,9 +5,8 @@
 tripUsServices.service('group', ['Restangular', function(Restangular){
 
     var baseTrip = Restangular.all('Trip');
-
-    this.groups = {};
-    this._groupId = 1;
+    //this.groups = {};
+    //this._groupId = 1;
 
 
     return {
@@ -15,22 +14,19 @@ tripUsServices.service('group', ['Restangular', function(Restangular){
             return baseTrip.customPOST({name: "Test Group"}, "create", {}, {});
         },
         join: function(){
-            return baseTrip.customPOST({groupKey: 666}, "join", {}, {});
-        },
-        joinMock: function(){
-            return true;
-        },
-
-        groups: this.groups,
-        _groupId: this._groupId,
-        createGroup: function(groupName){
-            var newGroup = { name: groupName, code: this._groupId};
-            this.groups[this._groupId] = newGroup;
-            this._groupId++;
-            return newGroup;
-        },
-        getGroup: function(code) {
-            return this.groups[code] || undefined;
+            return baseTrip.customPOST({groupKey: 666, userName: "asas"}, "join", {}, {});
         }
+
+        //groups: this.groups,
+        //_groupId: this._groupId,
+        //createGroup: function(groupName){
+        //    var newGroup = { name: groupName, code: this._groupId};
+        //    this.groups[this._groupId] = newGroup;
+        //    this._groupId++;
+        //    return newGroup;
+        //},
+        //getGroup: function(code) {
+        //    return this.groups[code] || undefined;
+        //}
     };
 }]);
