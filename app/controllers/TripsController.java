@@ -23,6 +23,7 @@ public class TripsController extends Controller {
         int groupKey = rn.nextInt(1000) + 1;
 
         Trip newTripForDb = new Trip();
+        newTripForDb.setStarted(false);
         User leader = new User();
         leader.setName(userName);
         leader.setIsAdmin(true);
@@ -113,6 +114,10 @@ public class TripsController extends Controller {
 
         if (tripForDb == null) {
             return badRequest("Wrong Trip key");
+        }
+
+        if (tripForDb.isStarted() == true) {
+            return badRequest("This trip is already started");
         }
 
         String userName = values.get("userName").asText();

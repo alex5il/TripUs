@@ -14,6 +14,7 @@ public class Trip {
     private String tripLeader, tripName, key;
     private User[] users;
     private Result[] results;
+    private boolean isStarted;
 
     public Trip() {
     }
@@ -33,6 +34,14 @@ public class Trip {
 
     public static Trip findByTripLeader(String tripLeader) {
         return trips().findOne("{tripLeader: #}", tripLeader).as(Trip.class);
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean isStarted) {
+        this.isStarted = isStarted;
     }
 
     public Result[] getResults() {
