@@ -52,11 +52,11 @@ public class AlgorithmController extends Controller {
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int ITERATIONS = 100;
+    private final int ITERATIONS = 1000;
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
-    private final int SUBMIT_ON_ITERATION = 55;
+    private final int SUBMIT_ON_ITERATION = 400;
 
     private double maxFitness;
     private double minFitness;
@@ -83,19 +83,22 @@ public class AlgorithmController extends Controller {
         for (int i = 0; i < users.length; i++) {
             Pick[] picks = users[i].getRequirements();
 
-            // For every requirement of the user
-            for (int j = 0; j < picks.length; j++) {
+            // If user entered any requirements
+            if (picks != null) {
+                // For every requirement of the user
+                for (int j = 0; j < picks.length; j++) {
 
-                // If constraints already contain given amenity
-                if (constraints.containsKey(picks[j].getAmenity())) {
-                    // Increase the rank
-                    constraints.put(picks[j].getAmenity(),
-                            constraints.get(picks[j].getAmenity()) +
-                                    Integer.parseInt(picks[j].getRank()));
-                } else {
-                    // Put new amenity
-                    constraints.put(picks[j].getAmenity(),
-                            Integer.parseInt(picks[j].getRank()));
+                    // If constraints already contain given amenity
+                    if (constraints.containsKey(picks[j].getAmenity())) {
+                        // Increase the rank
+                        constraints.put(picks[j].getAmenity(),
+                                constraints.get(picks[j].getAmenity()) +
+                                        Integer.parseInt(picks[j].getRank()));
+                    } else {
+                        // Put new amenity
+                        constraints.put(picks[j].getAmenity(),
+                                Integer.parseInt(picks[j].getRank()));
+                    }
                 }
             }
         }
@@ -162,7 +165,7 @@ public class AlgorithmController extends Controller {
         for (int i = 0; i < ITERATIONS; i++) {
             evolution();
 
-            if (i % SUBMIT_ON_ITERATION == 0) {
+            if (i % SUBMIT_ON_ITERATION == 0 && i != 0) {
                 // Submitting new result
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
