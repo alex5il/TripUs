@@ -22,9 +22,9 @@ public class Result {
     }
 
     public String getTripResult() {
-        StringBuilder returnArrayJson = new StringBuilder("{\"name\":\"" + this.getName() + "\",[");
+        StringBuilder returnArrayJson = new StringBuilder("{\"name\":\"" + this.getName() + "\",\"points\" : [");
         for (int i = 0; i < point.length; i++) {
-            returnArrayJson.append("{\"name\":\"" + point[i].getName() + "\",\"amenity\":\"" + point[i].getAmenity() + "\",\"latitude\":\"" + point[i].getLatitude() + "\",\"amenity\":\"" + point[i].getLongitude() + "}");
+            returnArrayJson.append("{\"name\":\"" + point[i].getName() + "\",\"amenity\":\"" + point[i].getAmenity() + "\",\"latitude\":\"" + point[i].getLatitude() + "\",\"longitude\":\"" + point[i].getLongitude() + "\"}");
             if (i < point.length - 1)
                 returnArrayJson.append(",");
         }
