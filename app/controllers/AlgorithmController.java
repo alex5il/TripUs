@@ -56,7 +56,7 @@ public class AlgorithmController extends Controller {
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
-    private final int SUBMIT_ON_ITERATION = 500;
+    private final int SUBMIT_ON_ITERATION = 55;
 
     private double maxFitness;
     private double minFitness;
@@ -71,6 +71,7 @@ public class AlgorithmController extends Controller {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
+//        String tripKey = "991";
 
         MongoCursor<Point> pointsCursor;
         constraints = new HashMap<String, Integer>();
@@ -165,14 +166,14 @@ public class AlgorithmController extends Controller {
                 // Submitting new result
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
-                trip.addAnotherResult(new data.Result("1", track));
+                trip.addAnotherResult(new data.Result(Integer.toString(i), track));
             }
         }
 
         // Submitting final result
         Individual best = bestIndividual();
         Point[] track = toTrack(best.genome);
-        trip.addAnotherResult(new data.Result("1", track));
+        trip.addAnotherResult(new data.Result(Integer.toString(ITERATIONS), track));
 
         return ok();
     }
@@ -304,7 +305,7 @@ public class AlgorithmController extends Controller {
     private void calcFitness(Individual individual) {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
-        double fitness = 0;
+        double fitness = 10;
         int multiplier = 1;
 
         // Need the hash map to check that enough POIs of the same

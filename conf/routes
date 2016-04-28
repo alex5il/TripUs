@@ -12,6 +12,7 @@ POST        /Trip/user/reqSet          controllers.TripsController.setReq()
 POST        /Trip/user/reqGet          controllers.TripsController.getReq()
 GET         /Trip/result               controllers.TripsController.getTripResults(tripGroupKey : String)
 POST        /Alg/start                 controllers.AlgorithmController.index()
+GET         /Alg                       controllers.AlgorithmController.index()
 
 GET         /                          controllers.Assets.at(path="/public", file="index.html")
 
