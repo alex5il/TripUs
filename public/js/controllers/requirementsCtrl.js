@@ -79,6 +79,9 @@ tripUsControllers.controller('requirementsCtrl',
                 alghorithm.start($routeParams.groupId).then(function(res){
                     $scope.errorMsg = false;
                     $scope.okMsg = "Algorithm started!";
+
+                    //Routes to result page
+                    $location.path("/tripResults/" + $routeParams.groupId);
                 }, function(res){
                     $scope.errorMsg = res.data;
                     $scope.okMsg = false;
