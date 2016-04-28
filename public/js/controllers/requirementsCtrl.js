@@ -5,6 +5,8 @@ tripUsControllers.controller('requirementsCtrl',
                 ratings: []
             };
 
+            $scope.groupKey = $routeParams.groupId;
+
             // Get data from server if user was already at this group
             group.reqGet($routeParams.groupId, $routeParams.userName).then(function(res){
                 $scope.isLeader = res.isLeader;

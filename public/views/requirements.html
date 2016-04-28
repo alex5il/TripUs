@@ -15,10 +15,28 @@
         </div>
     </div>
 
-    <!--ng-repeat on rating here-->
-    <amenity-rating ng-repeat="rating in requirements.ratings" remove-item="removeItem($index)" add-item="addItem()" item="rating"
-                    amenities="amenities"
-                    change-amenity="changeAmenity(value, index)" amenity-index="$index" other-selected-values="otherSelectedValues"></amenity-rating>
+    <div class="col-xs-12 text-center">
+        <label>Group Key : {{groupKey}}</label>
+    </div>
+
+    <div class="row">
+        <!--<div class="col-xs-2 col-xs-offset-4 form-group">-->
+            <!--<h4>User's statuses</h4>-->
+
+            <!--&lt;!&ndash;User statuses&ndash;&gt;-->
+            <!--<div ng-repeat="r in [{},{},{}]">-->
+                <!--<label class="control-label">username : </label>-->
+                <!--<label class="control-label">Ready</label>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="col-xs-12">
+            <!--ng-repeat on rating here-->
+            <amenity-rating class="col-xs-12" ng-repeat="rating in requirements.ratings"
+                            remove-item="removeItem($index)" add-item="addItem()" item="rating" amenities="amenities"
+                            change-amenity="changeAmenity(value, index)" amenity-index="$index" other-selected-values="otherSelectedValues"></amenity-rating>
+        </div>
+    </div>
 
     <!--Add rating here-->
     <div class="row">
