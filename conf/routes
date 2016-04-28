@@ -6,12 +6,12 @@
 GET         /Home                      controllers.Application.index()
 GET         /AllAmenities              controllers.AmenitiesController.getAllAmenities()
 GET         /AllAmenitiesFilter        controllers.AmenitiesController.getAllAmenitiesWithFilter(word : String)
-GET         /Alg                       controllers.AlgorithmController.index()
 POST        /Trip/create               controllers.TripsController.createTrip()
 POST        /Trip/join                 controllers.TripsController.joinTrip()
-POST        /Trip/user/reqSet        controllers.TripsController.setReq()
-POST        /Trip/user/reqGet        controllers.TripsController.getReq()
-GET         /Trip/result             controllers.TripsController.getTripResults(tripGroupKey : String)
+POST        /Trip/user/reqSet          controllers.TripsController.setReq()
+POST        /Trip/user/reqGet          controllers.TripsController.getReq()
+GET         /Trip/result               controllers.TripsController.getTripResults(tripGroupKey : String)
+POST        /Alg/start                 controllers.AlgorithmController.index()
 
 GET         /                          controllers.Assets.at(path="/public", file="index.html")
 

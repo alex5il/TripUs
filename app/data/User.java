@@ -13,11 +13,20 @@ public class User {
     private Pick[] requirements;
     private String name;
     private Boolean isAdmin;
+    private Boolean addedReqs;
 
     public User() {}
 
     public User(String name) {
         this.name = name;
+    }
+
+    public Boolean getAddedReqs() {
+        return addedReqs;
+    }
+
+    public void setAddedReqs(Boolean addedReqs) {
+        this.addedReqs = addedReqs;
     }
 
     public Boolean getIsAdmin() {
@@ -34,6 +43,7 @@ public class User {
 
     public void setRequirements(Pick[] requirements) {
         this.requirements = requirements;
+        this.setAddedReqs(true);
     }
 
     public String getRequirementsJsonReturn() {
