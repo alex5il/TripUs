@@ -1,5 +1,5 @@
 tripUsControllers.controller('requirementsCtrl',
-    ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', function ($scope, $location, $routeParams, group, amenityService, Restangular) {
+    ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', 'alghorithm', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm) {
 
             $scope.requirements = {
                 ratings: []
@@ -76,6 +76,13 @@ tripUsControllers.controller('requirementsCtrl',
 
             $scope.searchTrip = function() {
                 // Call to start alghorithm
+                alghorithm.start($routeParams.groupId).then(function(res){
+                    $scope.errorMsg = false;
+                    $scope.okMsg = "Algorithm started!";
+                }, function(res){
+                    $scope.errorMsg = res.data;
+                    $scope.okMsg = false;
+                });
             };
 
              // Check for duplicates
