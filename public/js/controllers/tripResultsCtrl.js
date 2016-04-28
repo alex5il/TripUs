@@ -18,5 +18,32 @@ tripUsControllers.controller('tripResultsCtrl', function ($scope, TripResults, $
         });
 
         $scope.currentPath = $scope.polylines[1];
+
+        $scope.markers = [
+            {
+                id: 0,
+                coords: {
+                    latitude: 40.1451,
+                    longitude: -99.6680
+                },
+                options: {
+                    labelContent: "Fuck my life",
+                    labelAnchor: "0 0",
+                    labelClass: "marker-labels"
+                }
+            },
+            {
+                id: 1,
+                coords: {
+                    latitude: 45.1451,
+                    longitude: -95.6680
+                },
+                options: {
+                    labelContent: "Fuck my life",
+                    labelAnchor: "0 0",
+                    labelClass: "marker-labels"
+                }
+            }
+        ];
     });
 });
