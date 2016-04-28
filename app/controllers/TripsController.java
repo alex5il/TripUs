@@ -26,6 +26,7 @@ public class TripsController extends Controller {
         newTripForDb.setStarted(false);
         User leader = new User();
         leader.setName(userName);
+        leader.setAddedReqs(false);
         leader.setIsAdmin(true);
         User[] users = new User[1];
         users[0] = leader;
@@ -122,6 +123,7 @@ public class TripsController extends Controller {
 
         String userName = values.get("userName").asText();
         User user = new User(userName);
+        user.setAddedReqs(false);
         user.setIsAdmin(false);
         ArrayList<User> users = new ArrayList<User>();
         Integer oldNumOfUsers = 0;
