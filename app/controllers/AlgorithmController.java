@@ -56,6 +56,7 @@ public class AlgorithmController extends Controller {
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
+    private final int SUBMIT_ON_ITERATION = 200;
 
     private double maxFitness;
     private double minFitness;
@@ -159,12 +160,18 @@ public class AlgorithmController extends Controller {
         // Evolving the population
         for (int i = 0; i < ITERATIONS; i++) {
             evolution();
+
+            if (i % SUBMIT_ON_ITERATION == 0) {
+                // Submitting new result
+                Individual best = bestIndividual();
+                Point[] track = toTrack(best.genome);
+                trip.addAnotherResult(new data.Result("1", track));
+            }
         }
 
+        // Submitting final result
         Individual best = bestIndividual();
-
         Point[] track = toTrack(best.genome);
-
         trip.addAnotherResult(new data.Result("1", track));
 
         return ok();
