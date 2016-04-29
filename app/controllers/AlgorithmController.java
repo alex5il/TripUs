@@ -45,11 +45,11 @@ public class AlgorithmController extends Controller {
         }
     }
 
-    private final int POPULATION_SIZE = 1000;
+    private final int POPULATION_SIZE = 1500;
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int ITERATIONS = 1000;
+    private final int ITERATIONS = 500;
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
@@ -68,7 +68,7 @@ public class AlgorithmController extends Controller {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
-//        String tripKey = "991";
+//        String tripKey = "154";
 
         MongoCursor<Amenity> cursorAmenities = Amenity.amenities();
         HashMap<String, String> mapAmenities = new HashMap<String, String>();
