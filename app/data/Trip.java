@@ -102,7 +102,7 @@ public class Trip {
     }
 
     public String getTripResults() {
-        StringBuilder returnArrayJson = new StringBuilder("{results:[");
+        StringBuilder returnArrayJson = new StringBuilder("{\"results\":[");
         if (this.results != null) {
             for (int i = 0; i < results.length; i++) {
                 returnArrayJson.append(results[i].getTripResult());
@@ -110,7 +110,7 @@ public class Trip {
                     returnArrayJson.append(",");
             }
         }
-        returnArrayJson.append("], isFinished:");
+        returnArrayJson.append("], \"isFinished\":");
         returnArrayJson.append(this.isFinished);
         returnArrayJson.append("}");
         return returnArrayJson.toString();
