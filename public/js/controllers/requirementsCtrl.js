@@ -70,24 +70,27 @@ tripUsControllers.controller('requirementsCtrl',
                 group.reqSet($routeParams.groupId, $routeParams.userName, tempReq).then(function(response){
                     $scope.errorMsg = false;
                     $scope.okMsg = "Awesome data sent!";
+
+                    // If leader - run the algorithm and redirect to results page
+                    if ($scope.isLeader) {
+                        // Call to start alghorithm
+                        alghorithm.start($routeParams.groupId).then(function (res) {
+                            $scope.errorMsg = false;
+                            $scope.okMsg = "Algorithm started!";
+                        }, function (res) {
+                            $scope.errorMsg = res.data;
+                            $scope.okMsg = false;
+                        });
+
+                        //Routes to result page
+                        $location.path("/tripResults/" + $routeParams.groupId);
+                    }
                 }, function(res){
                     $scope.errorMsg = res.data;
                     $scope.okMsg = false;
                 });
-            };
 
-            $scope.searchTrip = function() {
-                // Call to start alghorithm
-                alghorithm.start($routeParams.groupId).then(function(res){
-                    $scope.errorMsg = false;
-                    $scope.okMsg = "Algorithm started!";
-                }, function(res){
-                    $scope.errorMsg = res.data;
-                    $scope.okMsg = false;
-                });
 
-                //Routes to result page
-                $location.path("/tripResults/" + $routeParams.groupId);
             };
 
              // Check for duplicates
