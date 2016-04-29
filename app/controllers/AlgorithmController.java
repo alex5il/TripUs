@@ -49,11 +49,11 @@ public class AlgorithmController extends Controller {
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int ITERATIONS = 500;
+    private final int ITERATIONS = 600;
     private final int POINTS_MULTIPLIER = 3;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
-    private final int SUBMIT_ON_ITERATION = 400;
+    private final int SUBMIT_ON_ITERATION = 250;
 
     private double maxFitness;
     private double minFitness;
