@@ -175,6 +175,7 @@ public class AlgorithmController extends Controller {
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
                 trip.addAnotherResult(new data.Result(Integer.toString(i), track));
+                trip.insert();
             }
         }
 
@@ -182,6 +183,8 @@ public class AlgorithmController extends Controller {
         Individual best = bestIndividual();
         Point[] track = toTrack(best.genome);
         trip.addAnotherResult(new data.Result(Integer.toString(ITERATIONS), track));
+        trip.setFinished(true);
+        trip.insert();
 
         return ok();
     }

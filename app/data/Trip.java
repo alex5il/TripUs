@@ -15,6 +15,7 @@ public class Trip {
     private User[] users;
     private Result[] results;
     private boolean isStarted;
+    private boolean isFinished;
 
     public Trip() {
     }
@@ -40,8 +41,16 @@ public class Trip {
         return isStarted;
     }
 
+    public boolean isFinished() {
+        return isFinished;
+    }
+
     public void setStarted(boolean isStarted) {
         this.isStarted = isStarted;
+    }
+
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
     public Result[] getResults() {
@@ -119,7 +128,6 @@ public class Trip {
         }
 
         this.setResults(resultsNew);
-        this.insert();
     }
 
     public void insert() {
