@@ -46,14 +46,6 @@ public class TripsController extends Controller {
         String tripGroupKey = values.get("groupKey").asText();
         Trip tripForDb = Trip.findByKey(tripGroupKey);
 
-        MongoCursor<Amenity> cursorAmenities = Amenity.amenities();
-        HashMap<String, String> mapAmenities = new HashMap<String, String>();
-
-        // Mapping amenities from display name to actual name in DB
-        for (Amenity amenity : cursorAmenities) {
-            mapAmenities.put(amenity.getDisplayName(), amenity.getName());
-        }
-
         if (tripForDb == null) {
             return badRequest("Wrong Trip key");
         }
@@ -80,8 +72,7 @@ public class TripsController extends Controller {
             Pick[] picks = new Pick[array.size()];
             int index = 0;
             for (final JsonNode objNode : array) {
-                // From display name to actual name
-                Pick newPick = new Pick(mapAmenities.get(objNode.get("amenity").asText()),
+                Pick newPick = new Pick(objNode.get("amenity").asText(),
                         objNode.get("rank").asText());
                 picks[index] = newPick;
                 index++;

@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import data.Pick;
-import data.Point;
-import data.Trip;
-import data.User;
+import data.*;
 import org.jongo.MongoCursor;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -73,6 +70,14 @@ public class AlgorithmController extends Controller {
         String tripKey = values.get("groupKey").asText();
 //        String tripKey = "991";
 
+        MongoCursor<Amenity> cursorAmenities = Amenity.amenities();
+        HashMap<String, String> mapAmenities = new HashMap<String, String>();
+
+        // Mapping amenities from display name to actual name in DB
+        for (Amenity amenity : cursorAmenities) {
+            mapAmenities.put(amenity.getDisplayName(), amenity.getName());
+        }
+
         MongoCursor<Point> pointsCursor;
         constraints = new HashMap<String, Integer>();
         Trip trip = Trip.findByKey(tripKey);
@@ -89,14 +94,14 @@ public class AlgorithmController extends Controller {
                 for (int j = 0; j < picks.length; j++) {
 
                     // If constraints already contain given amenity
-                    if (constraints.containsKey(picks[j].getAmenity())) {
+                    if (constraints.containsKey(mapAmenities.get(picks[j].getAmenity()))) {
                         // Increase the rank
-                        constraints.put(picks[j].getAmenity(),
-                                constraints.get(picks[j].getAmenity()) +
+                        constraints.put(mapAmenities.get(picks[j].getAmenity()),
+                                constraints.get(mapAmenities.get(picks[j].getAmenity())) +
                                         Integer.parseInt(picks[j].getRank()));
                     } else {
                         // Put new amenity
-                        constraints.put(picks[j].getAmenity(),
+                        constraints.put(mapAmenities.get(picks[j].getAmenity()),
                                 Integer.parseInt(picks[j].getRank()));
                     }
                 }
