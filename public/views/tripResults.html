@@ -3,7 +3,7 @@
     <div>loading pane</div>
     <div class="row">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <select class="form-control"  ng-model="currentPath"
+            <select class="form-control"  ng-model="currentPath" ng-change="setPathMarkers()"
                     ng-options="route.id for route in polylines">
             </select>
         </div>
