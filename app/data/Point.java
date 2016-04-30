@@ -24,9 +24,13 @@ public class Point {
         return getPointsCollection().find().as(Point.class);
     }
 
-    public static MongoCursor<Point> getRandomPoints(int quantity){
-        int totalPoints = (int)getPointsCollection().count();
+    public static MongoCursor<Point> getRandomPoints(int quantity) {
+        int totalPoints = (int) getPointsCollection().count();
         Random rnd = new Random();
+
+        if (quantity > totalPoints) {
+            quantity = totalPoints;
+        }
 
         return getPointsCollection().find().limit(quantity).skip(rnd.nextInt(totalPoints - quantity)).as(Point.class);
     }

@@ -49,8 +49,9 @@ public class AlgorithmController extends Controller {
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
+    private final int MAX_POINTS = 30;
     private final int ITERATIONS = 600;
-    private final int POINTS_MULTIPLIER = 3;
+    private final int POINTS_MULTIPLIER = 2;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
     private final int SUBMIT_ON_ITERATION = 250;
@@ -59,6 +60,7 @@ public class AlgorithmController extends Controller {
     private double minFitness;
     private int totalPoints;
     private int pointsInTrip;
+    private int totalRank;
 
     private ArrayList<Individual> population;
     private HashMap<String, Integer> constraints;
@@ -68,7 +70,13 @@ public class AlgorithmController extends Controller {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
-//        String tripKey = "154";
+
+        // Initializing global variables
+        maxFitness = 0;
+        minFitness = 0;
+        totalPoints = 0;
+        pointsInTrip = 0;
+        totalRank = 0;
 
         MongoCursor<Amenity> cursorAmenities = Amenity.amenities();
         HashMap<String, String> mapAmenities = new HashMap<String, String>();
@@ -104,6 +112,8 @@ public class AlgorithmController extends Controller {
                         constraints.put(mapAmenities.get(picks[j].getAmenity()),
                                 Integer.parseInt(picks[j].getRank()));
                     }
+
+                    totalRank += Integer.parseInt(picks[j].getRank());
                 }
             }
         }
@@ -128,6 +138,8 @@ public class AlgorithmController extends Controller {
         // If less than minimum points - set to minimum
         if (pointsInTrip < MIN_POINTS) {
             pointsInTrip = MIN_POINTS;
+        } else if (pointsInTrip > MAX_POINTS) {
+            pointsInTrip = MAX_POINTS;
         }
 
         totalPoints = POPULATION_SIZE * pointsInTrip * POINTS_MULTIPLIER;
@@ -316,6 +328,7 @@ public class AlgorithmController extends Controller {
     private void calcFitness(Individual individual) {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
+        int length_multiplier = 2;
         double fitness = 10;
         int multiplier = 1;
 
@@ -342,6 +355,8 @@ public class AlgorithmController extends Controller {
             // If amenity is found in the constraints
             if (constraints.containsKey(point.getAmenity()) &&
                     leftovers.get(point.getAmenity()) > 0) {
+
+
                 // If a new constraint is met
                 if (leftovers.get(point.getAmenity()) == constraints.get(point.getAmenity())) {
                     multiplier++;
@@ -357,7 +372,7 @@ public class AlgorithmController extends Controller {
 
         // Multiply by the amount of constraints met and
         // divide according to difference in distance
-        fitness = (fitness * multiplier) / ((maxLong - minLong) + (maxLat - minLat));
+        fitness = (fitness * multiplier) / (length_multiplier * ((maxLong - minLong) + (maxLat - minLat)));
 
         // Calculating max and min population fitness for further calculations
         if (maxFitness < fitness) {
