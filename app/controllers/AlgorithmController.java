@@ -49,12 +49,12 @@ public class AlgorithmController extends Controller {
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int MAX_POINTS = 30;
-    private final int ITERATIONS = 600;
+    private final int MAX_POINTS = 25;
+    private final int ITERATIONS = 800;
     private final int POINTS_MULTIPLIER = 2;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
-    private final int SUBMIT_ON_ITERATION = 250;
+    private final int SUBMIT_ON_ITERATION = 200;
 
     private double maxFitness;
     private double minFitness;
@@ -328,8 +328,8 @@ public class AlgorithmController extends Controller {
     private void calcFitness(Individual individual) {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
-        int lengthMultiplier = 3;
-        double fitness = 10;
+        int lengthMultiplier = 5;
+        double fitness = 30;
         int multiplier = 1;
         HashMap<String, Integer> constraintsMet = new HashMap<>();
 
