@@ -19,3 +19,32 @@ div.resultsContainer {
     font-weight: bold;
     font-size: 15px;
 }
+
+.results-container{
+    height: 400px;
+    overflow-y: auto;
+}
+
+/* Let's get this party started */
+.results-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+.results-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* Handle */
+.results-container::-webkit-scrollbar-thumb {
+    background: #337AB7;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.results-container::-webkit-scrollbar-thumb:window-inactive {
+    background: #337AB7;
+}
+
+.results-container .list-group-item:first-child, .results-container .list-group-item:last-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

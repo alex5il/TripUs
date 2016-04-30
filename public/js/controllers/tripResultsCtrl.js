@@ -6,6 +6,7 @@ tripUsControllers.controller('tripResultsCtrl', function ($scope, TripResults, $
 
 
     $scope.setPathMarkers = function(currentPath) {
+        $scope.currentPath = currentPath;
         $scope.pathMarkers = [];
         angular.forEach(currentPath.path, function (point, index) {
                 $scope.pathMarkers.push(
