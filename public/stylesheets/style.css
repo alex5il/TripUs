@@ -14,3 +14,8 @@ div.resultsContainer {
     margin-top: 15px;
     width: 700px;
 }
+
+.anchorLabel {
+    font-weight: bold;
+    font-size: 15px;
+}

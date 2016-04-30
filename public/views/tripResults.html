@@ -1,10 +1,11 @@
-0<div class="container resultsContainer">
+<div class="container resultsContainer">
     <h4 class="subheading">Your Requested trip results are:</h4>
-    <div>loading pane</div>
-    <div class="row">
+    <div ng-if="polylines.length > 0 && isFinished === false">Loading routes</div>
+    <div ng-if="polylines.length === 0 && isFinished === true">Didnt find any routes... </div>
+    <div class="row" ng-if="polylines.length > 0">
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <select class="form-control"  ng-model="currentPath" ng-change="setPathMarkers()"
-                    ng-options="route.id for route in polylines">
+            <select class="form-control"  ng-model="currentPath" ng-change="setPathMarkers(currentPath)"
+                    ng-options="route.id for route in polylines track by route.id">
             </select>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
