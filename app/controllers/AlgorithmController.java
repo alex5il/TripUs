@@ -328,13 +328,15 @@ public class AlgorithmController extends Controller {
     private void calcFitness(Individual individual) {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
-        int length_multiplier = 2;
+        int lengthMultiplier = 3;
         double fitness = 10;
         int multiplier = 1;
+        HashMap<String, Integer> constraintsMet = new HashMap<>();
 
-        // Need the hash map to check that enough POIs of the same
-        // amenity were already added to the trip.
-        HashMap<String, Integer> leftovers = new HashMap<>(constraints);
+        // Hash map for calculating met constraints
+        for (Map.Entry<String, Integer> entry : constraints.entrySet()) {
+            constraintsMet.put(entry.getKey(), 0);
+        }
 
         // For every point in the genome
         for (Point point : individual.genome) {
@@ -352,27 +354,28 @@ public class AlgorithmController extends Controller {
                 minLat = point.getLatitude();
             }
 
-            // If amenity is found in the constraints
+            // If amenity is found in the constraints and the amenity
+            // is not present too many times in the individual
             if (constraints.containsKey(point.getAmenity()) &&
-                    leftovers.get(point.getAmenity()) > 0) {
-
+                    constraintsMet.get(point.getAmenity()) <
+                            Math.ceil((constraints.get(point.getAmenity()) / totalRank) * totalPoints)) {
 
                 // If a new constraint is met
-                if (leftovers.get(point.getAmenity()) == constraints.get(point.getAmenity())) {
+                if (constraintsMet.get(point.getAmenity()) == 0) {
                     multiplier++;
                 }
 
                 // Increase the fitness
                 fitness += constraints.get(point.getAmenity());
 
-                // Decrement leftover
-                leftovers.put(point.getAmenity(), leftovers.get(point.getAmenity()) - 1);
+                // Increase constraints met for given amenity
+                constraintsMet.put(point.getAmenity(), constraintsMet.get(point.getAmenity()) + 1);
             }
         }
 
         // Multiply by the amount of constraints met and
         // divide according to difference in distance
-        fitness = (fitness * multiplier) / (length_multiplier * ((maxLong - minLong) + (maxLat - minLat)));
+        fitness = (fitness * multiplier) / (lengthMultiplier * ((maxLong - minLong) + (maxLat - minLat)));
 
         // Calculating max and min population fitness for further calculations
         if (maxFitness < fitness) {
