@@ -10,30 +10,12 @@ import java.util.*;
 
 public class AlgorithmController extends Controller {
 
-    private class Constraint {
-        private String amenity;
-        private int rating;
-
-        public Constraint(String amenity, int rating) {
-            this.amenity = amenity;
-            this.rating = rating;
-        }
-
-        public String getAmenity() {
-            return this.amenity;
-        }
-
-        public int getRating() {
-            return this.rating;
-        }
-    }
-
     private class Individual {
         private double fitness;
         public HashSet<Point> genome;
 
         public Individual() {
-            genome = new HashSet<Point>();
+            genome = new HashSet<>();
         }
 
         public double getFitness() {
@@ -45,11 +27,11 @@ public class AlgorithmController extends Controller {
         }
     }
 
-    private final int POPULATION_SIZE = 1500;
+    private final int POPULATION_SIZE = 1200;
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.2;
     private final int MIN_POINTS = 10;
-    private final int MAX_POINTS = 25;
+    private final int MAX_POINTS = 20;
     private final int ITERATIONS = 800;
     private final int POINTS_MULTIPLIER = 2;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
@@ -73,13 +55,13 @@ public class AlgorithmController extends Controller {
 
         // Initializing global variables
         maxFitness = 0;
-        minFitness = 0;
+        minFitness = Double.MAX_VALUE;
         totalPoints = 0;
         pointsInTrip = 0;
         totalRank = 0;
 
         MongoCursor<Amenity> cursorAmenities = Amenity.amenities();
-        HashMap<String, String> mapAmenities = new HashMap<String, String>();
+        HashMap<String, String> mapAmenities = new HashMap<>();
 
         // Mapping amenities from display name to actual name in DB
         for (Amenity amenity : cursorAmenities) {
@@ -87,7 +69,7 @@ public class AlgorithmController extends Controller {
         }
 
         MongoCursor<Point> pointsCursor;
-        constraints = new HashMap<String, Integer>();
+        constraints = new HashMap<>();
         Trip trip = Trip.findByKey(tripKey);
         User[] users = trip.getUsers();
 
@@ -128,7 +110,7 @@ public class AlgorithmController extends Controller {
 //        constraints.put("theatre", 1);
         // ****************************************************************************** //
 
-        genesArray = new ArrayList<Point>();
+        genesArray = new ArrayList<>();
 
         // Calculating total points in the trip
         for (Map.Entry<String, Integer> entry : constraints.entrySet()) {
@@ -154,10 +136,8 @@ public class AlgorithmController extends Controller {
         }
 
         Random rnd = new Random();
-        maxFitness = 0;
-        minFitness = Double.MAX_VALUE;
 
-        population = new ArrayList<Individual>();
+        population = new ArrayList<>();
 
         // Randomly generating individuals for the population
         for (int i = 0; i < POPULATION_SIZE; i++) {
@@ -175,6 +155,7 @@ public class AlgorithmController extends Controller {
 
             // Calculate the individual fitness
             calcFitness(individual);
+            updateGlobalFitness(individual);
             population.add(individual);
         }
 
@@ -203,35 +184,46 @@ public class AlgorithmController extends Controller {
 
     private void evolution() {
         double fitnessVariety = maxFitness - minFitness;
+        double currMinFitness = minFitness;
         double selectionProbability;
 
+        // Initializing min and max fitness to calculate
+        // updated values for the next calculation
+        maxFitness = 0;
+        minFitness = Double.MAX_VALUE;
+
         Random rnd = new Random();
-        ArrayList<Individual> toCrossover = new ArrayList<Individual>();
+        ArrayList<Individual> toCrossover = new ArrayList<>();
 
         // Performing selection
         for (Iterator<Individual> it = population.iterator(); it.hasNext(); ) {
             Individual individual = it.next();
 
             // Selection probability of the individual
-            selectionProbability = (individual.getFitness() - minFitness) / (fitnessVariety);
+            selectionProbability = (individual.getFitness() - currMinFitness) / (fitnessVariety);
 
             // The individual is not selected (removed)
             // Only if the population is not too low
             if (population.size() > MIN_POPULATION &&
                     selectionProbability < rnd.nextDouble()) {
                 it.remove();
-            } else if (population.size() < MAX_POPULATION &&
-                    rnd.nextDouble() <= P_CROSS) {
-                // The individual is chosen for crossover
-                // Only if the population is not too high
-                toCrossover.add(individual);
-            } else if (rnd.nextDouble() <= P_MUT) {
-                // Performing mutation
-                mutation(individual);
+            } else {
+                if (population.size() < MAX_POPULATION &&
+                        rnd.nextDouble() <= P_CROSS) {
+                    // The individual is chosen for crossover
+                    // Only if the population is not too high
+                    toCrossover.add(individual);
+                } else if (rnd.nextDouble() <= P_MUT) {
+                    // Performing mutation
+                    mutation(individual);
+                } else {
+                    // Calculating max and min population fitness for further calculations
+                    updateGlobalFitness(individual);
+                }
             }
         }
 
-        // Performing crossover
+        // Performing crossover only if another pair is available
         while (toCrossover.size() >= 2) {
             int crossoverPoint = rnd.nextInt(pointsInTrip);
             Individual ind1, ind2;
@@ -287,14 +279,36 @@ public class AlgorithmController extends Controller {
             population.add(newInd1);
             population.add(newInd2);
 
+            // Calculating max and min population fitness for newInd1
+            updateGlobalFitness(newInd1);
+
+            // Calculating max and min population fitness for newInd2
+            updateGlobalFitness(newInd2);
+
             // Mutating the old individuals
             if (rnd.nextDouble() <= P_MUT) {
                 // Performing mutation
                 mutation(ind1);
             }
+
+            // Calculating max and min population fitness for mutated ind2
+            updateGlobalFitness(ind1);
+
             if (rnd.nextDouble() <= P_MUT) {
                 // Performing mutation
                 mutation(ind2);
+            }
+
+            // Calculating max and min population fitness for mutated ind1
+            updateGlobalFitness(ind2);
+        }
+
+        // If last individual left
+        if (toCrossover.size() != 0) {
+            if (rnd.nextDouble() <= P_MUT) {
+                // Performing mutation
+                mutation(toCrossover.get(0));
+                updateGlobalFitness(toCrossover.get(0));
             }
         }
     }
@@ -323,13 +337,16 @@ public class AlgorithmController extends Controller {
 
         // Calculate the new fitness
         calcFitness(individual);
+
+        // Calculating max and min population fitness for further calculations
+        updateGlobalFitness(individual);
     }
 
     private void calcFitness(Individual individual) {
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
         int lengthMultiplier = 5;
-        double fitness = 30;
+        double fitness = 1000;
         int multiplier = 1;
         HashMap<String, Integer> constraintsMet = new HashMap<>();
 
@@ -377,14 +394,6 @@ public class AlgorithmController extends Controller {
         // divide according to difference in distance
         fitness = (fitness * multiplier) / (lengthMultiplier * ((maxLong - minLong) + (maxLat - minLat)));
 
-        // Calculating max and min population fitness for further calculations
-        if (maxFitness < fitness) {
-            maxFitness = fitness;
-        }
-        if (minFitness > fitness) {
-            minFitness = fitness;
-        }
-
         individual.setFitness(fitness);
     }
 
@@ -403,13 +412,23 @@ public class AlgorithmController extends Controller {
         return bestInd;
     }
 
+    private void updateGlobalFitness(Individual individual) {
+        // Calculating max and min population fitness for further calculations
+        if (maxFitness < individual.fitness) {
+            maxFitness = individual.fitness;
+        }
+        if (minFitness > individual.fitness) {
+            minFitness = individual.fitness;
+        }
+    }
+
     private Point[] toTrack(HashSet<Point> genome) {
-        double minDist = 0, dist;
+        double minDist, dist;
         Point currPoint, nextPoint = null;
         Point[] track = new Point[pointsInTrip];
 
         // Copying the hash set to not to make changes in the original one
-        HashSet<Point> tempGenome = new HashSet<Point>(genome);
+        HashSet<Point> tempGenome = new HashSet<>(genome);
 
         // Calculating the starting point
         currPoint = calcStartingPoint(tempGenome);
@@ -424,9 +443,9 @@ public class AlgorithmController extends Controller {
 
             // For all the remaining points of genome
             for (Point point : tempGenome) {
-                // Calculate distance
-                dist = Math.sqrt(Math.pow(point.getLongitude() - currPoint.getLongitude(), 2) +
-                        Math.pow(point.getLatitude() - currPoint.getLatitude(), 2));
+                // Calculate manhattan distance
+                dist = Math.abs(point.getLongitude() - currPoint.getLongitude()) +
+                        Math.abs(point.getLatitude() - currPoint.getLatitude());
 
                 // If the distance is minimal
                 if (dist < minDist) {
@@ -493,7 +512,6 @@ public class AlgorithmController extends Controller {
         if (constraints.containsKey(right.getAmenity()) &&
                 constraints.get(right.getAmenity()) > currRank) {
             startingPoint = right;
-            currRank = constraints.get(right.getAmenity());
         }
 
         return startingPoint;
