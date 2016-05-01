@@ -29,14 +29,14 @@ public class AlgorithmController extends Controller {
 
     private final int POPULATION_SIZE = 1200;
     private final double P_CROSS = 0.7;
-    private final double P_MUT = 0.2;
-    private final int MIN_POINTS = 10;
+    private final double P_MUT = 0.3;
+    private final int MIN_POINTS = 8;
     private final int MAX_POINTS = 20;
-    private final int ITERATIONS = 800;
+    private final int ITERATIONS = 1000;
     private final int POINTS_MULTIPLIER = 2;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
-    private final int SUBMIT_ON_ITERATION = 200;
+    private final int SUBMIT_ON_ITERATION = 205;
 
     private double maxFitness;
     private double minFitness;
@@ -343,10 +343,13 @@ public class AlgorithmController extends Controller {
     }
 
     private void calcFitness(Individual individual) {
+        final int lengthMultiplier = 6;
+        final int rankMultiplier = 2;
+        final double basicFitness = 250;
+
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;
-        int lengthMultiplier = 5;
-        double fitness = 1000;
+        double fitness = 0;
         int multiplier = 1;
         HashMap<String, Integer> constraintsMet = new HashMap<>();
 
@@ -375,7 +378,7 @@ public class AlgorithmController extends Controller {
             // is not present too many times in the individual
             if (constraints.containsKey(point.getAmenity()) &&
                     constraintsMet.get(point.getAmenity()) <
-                            Math.ceil((constraints.get(point.getAmenity()) / totalRank) * totalPoints)) {
+                            Math.ceil(((double) constraints.get(point.getAmenity()) / totalRank) * pointsInTrip)) {
 
                 // If a new constraint is met
                 if (constraintsMet.get(point.getAmenity()) == 0) {
@@ -383,7 +386,7 @@ public class AlgorithmController extends Controller {
                 }
 
                 // Increase the fitness
-                fitness += constraints.get(point.getAmenity());
+                fitness += constraints.get(point.getAmenity()) * rankMultiplier;
 
                 // Increase constraints met for given amenity
                 constraintsMet.put(point.getAmenity(), constraintsMet.get(point.getAmenity()) + 1);
@@ -392,7 +395,8 @@ public class AlgorithmController extends Controller {
 
         // Multiply by the amount of constraints met and
         // divide according to difference in distance
-        fitness = (fitness * multiplier) / (lengthMultiplier * ((maxLong - minLong) + (maxLat - minLat)));
+        fitness = (basicFitness + (fitness * multiplier)) /
+                (lengthMultiplier * ((maxLong - minLong) + (maxLat - minLat)));
 
         individual.setFitness(fitness);
     }
