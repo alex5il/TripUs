@@ -27,13 +27,13 @@ public class AlgorithmController extends Controller {
         }
     }
 
-    private final int POPULATION_SIZE = 1200;
+    private final int POPULATION_SIZE = 1000;
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.3;
     private final int MIN_POINTS = 8;
     private final int MAX_POINTS = 20;
-    private final int ITERATIONS = 1000;
-    private final int POINTS_MULTIPLIER = 2;
+    private final int ITERATIONS = 800;
+    private final int POINTS_MULTIPLIER = 1;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
     private final int SUBMIT_ON_ITERATION = 205;
@@ -100,16 +100,6 @@ public class AlgorithmController extends Controller {
             }
         }
 
-        // Test data
-        // ****************************************************************************** //
-//        constraints = new HashMap<String, Integer>();
-//
-//        constraints.put("pub", 6);
-//        constraints.put("casino", 2);
-//        constraints.put("boat_sharing", 3);
-//        constraints.put("theatre", 1);
-        // ****************************************************************************** //
-
         genesArray = new ArrayList<>();
 
         // Calculating total points in the trip
@@ -124,10 +114,17 @@ public class AlgorithmController extends Controller {
             pointsInTrip = MAX_POINTS;
         }
 
-        totalPoints = POPULATION_SIZE * pointsInTrip * POINTS_MULTIPLIER;
+        // Fully random population
+//        totalPoints = POPULATION_SIZE * pointsInTrip * POINTS_MULTIPLIER;
+//
+//        // Fetching points population
+//        pointsCursor = Point.getRandomPoints(totalPoints);
+//
+//        if (totalPoints > pointsCursor.count()){
+//            totalPoints = pointsCursor.count();
+//        }
 
-        // Fetching points population
-        pointsCursor = Point.getRandomPoints(totalPoints);
+        pointsCursor = Point.getByAmenities(constraints.keySet());
         Iterator<Point> itGenes = pointsCursor.iterator();
 
         // Convert cursor to array list
@@ -135,8 +132,8 @@ public class AlgorithmController extends Controller {
             genesArray.add(itGenes.next());
         }
 
+        totalPoints = genesArray.size();
         Random rnd = new Random();
-
         population = new ArrayList<>();
 
         // Randomly generating individuals for the population
@@ -343,9 +340,9 @@ public class AlgorithmController extends Controller {
     }
 
     private void calcFitness(Individual individual) {
-        final int lengthMultiplier = 6;
-        final int rankMultiplier = 2;
-        final double basicFitness = 250;
+        final int lengthMultiplier = 8;
+        final int rankMultiplier = 5;
+        final double basicFitness = 800;
 
         double minLong = Double.MAX_VALUE, minLat = Double.MAX_VALUE;
         double maxLong = -Double.MAX_VALUE, maxLat = -Double.MAX_VALUE;

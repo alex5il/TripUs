@@ -1,11 +1,13 @@
 package data;
 
+import com.google.common.collect.Lists;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import java.util.Collection;
 import java.util.Random;
 
 public class Point {
@@ -33,6 +35,10 @@ public class Point {
         }
 
         return getPointsCollection().find().limit(quantity).skip(rnd.nextInt(totalPoints - quantity)).as(Point.class);
+    }
+
+    public static MongoCursor<Point> getByAmenities(Collection<String> amenities) {
+        return getPointsCollection().find("{'properties.amenity':{$in:#}}", amenities).as(Point.class);
     }
 
     public String getId() {
