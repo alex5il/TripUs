@@ -32,7 +32,7 @@ public class AlgorithmController extends Controller {
     private final double P_MUT = 0.3;
     private final int MIN_POINTS = 8;
     private final int MAX_POINTS = 20;
-    private final int ITERATIONS = 800;
+    private final int ITERATIONS = 1000;
     private final int POINTS_MULTIPLIER = 1;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
