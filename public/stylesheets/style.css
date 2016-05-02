@@ -48,3 +48,17 @@ div.resultsContainer {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
+.resultsContainer #loading-bar-spinner {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 5px;
+}
+
+.resultsContainer #loading-bar-spinner .spinner-icon {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+}
