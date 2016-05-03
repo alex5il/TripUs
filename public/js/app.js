@@ -1,4 +1,7 @@
-var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices', 'tripUsFilters', 'restangular', 'uiGmapgoogle-maps', 'angular-loading-bar']);
+var tripUs = angular.module('tripUs', ['ngRoute', 'ui.bootstrap','tripUsControllers', 'tripUsDirectives', 'tripUsServices', 'tripUsFilters', 'restangular', 'uiGmapgoogle-maps', 'angular-loading-bar'])
+    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.includeSpinner = false;
+}]);
 
 var tripUsServices = angular.module('tripUsServices', []);
 var tripUsDirectives = angular.module('tripUsDirectives', ['tripUsServices']);
