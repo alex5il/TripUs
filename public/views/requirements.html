@@ -16,7 +16,14 @@
     </div>
 
     <div class="col-xs-12 text-center">
-        <label>Group Key : {{groupKey}}</label>
+        <div class="form-group col-xs-3 col-xs-offset-3">
+            <label class="control-label">Group Key : {{groupKey}}</label>
+        </div>
+
+        <div class="form-group col-xs-3">
+            <label class="control-label">Number of points:</label>
+            <input min=5 max=20 type="number" class="form-control" style="width:auto; display: inline-block" ng-model="pointsNum">
+        </div>
     </div>
 
     <div class="row">

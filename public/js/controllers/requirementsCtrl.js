@@ -7,9 +7,13 @@ tripUsControllers.controller('requirementsCtrl',
 
             $scope.groupKey = $routeParams.groupId;
 
+            $scope.pointsNum = $scope.pointsNum || 5;
+
             // Get data from server if user was already at this group
             group.reqGet($routeParams.groupId, $routeParams.userName).then(function(res){
                 $scope.isLeader = res.isLeader;
+
+                $scope.pointsNum = res.pointsNum || 5;
 
                 _(res.reqs).forEach(function (n) {
                     n.selectedAmenity = n.amenity;
@@ -67,7 +71,7 @@ tripUsControllers.controller('requirementsCtrl',
                 }
 
                 // Send request
-                group.reqSet($routeParams.groupId, $routeParams.userName, tempReq).then(function(response){
+                group.reqSet($routeParams.groupId, $routeParams.userName, tempReq, $scope.pointsNum).then(function(response){
                     $scope.errorMsg = false;
                     $scope.okMsg = "Awesome data sent!";
 
