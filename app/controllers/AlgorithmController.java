@@ -28,12 +28,12 @@ public class AlgorithmController extends Controller {
         }
     }
 
-    private final int POPULATION_SIZE = 1000;
+    private final int POPULATION_SIZE = 500;
     private final double P_CROSS = 0.7;
     private final double P_MUT = 0.3;
     private final int MIN_POINTS = 8;
     private final int MAX_POINTS = 20;
-    private final int ITERATIONS = 1000;
+    private final int ITERATIONS = 200;
     private final int POINTS_MULTIPLIER = 1;
     private final int MIN_POPULATION = (int) (POPULATION_SIZE * 0.1);
     private final int MAX_POPULATION = POPULATION_SIZE * 10;
@@ -53,7 +53,13 @@ public class AlgorithmController extends Controller {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
-        String pointsNum = values.get("pointsNum").asText();
+
+        EventSource e = new EventSource() {
+            @Override
+            public void onConnected() {
+                this.send(new Event("Algorithm started", "mess", "mess"));
+            }
+        };
 
         // Initializing global variables
         maxFitness = 0;
@@ -179,17 +185,6 @@ public class AlgorithmController extends Controller {
         trip.insert();
 
         return ok();
-    }
-
-    public Result tripStarted() {
-        EventSource e = new EventSource() {
-            @Override
-            public void onConnected() {
-                this.send(new Event("Algorithm started", "mess", "mess"));
-            }
-        };
-
-        return ok(e);
     }
 
     private void evolution() {
