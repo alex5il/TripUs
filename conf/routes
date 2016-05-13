@@ -11,6 +11,7 @@ POST        /Trip/join                 controllers.TripsController.joinTrip()
 POST        /Trip/user/reqSet          controllers.TripsController.setReq()
 POST        /Trip/user/reqGet          controllers.TripsController.getReq()
 GET         /Trip/result               controllers.TripsController.getTripResults(tripGroupKey : String)
+GET         /Alg/event                 controllers.AlgorithmController.event()
 POST        /Alg/start                 controllers.AlgorithmController.index()
 GET         /Alg                       controllers.AlgorithmController.index()
 

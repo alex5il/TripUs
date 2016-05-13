@@ -48,18 +48,14 @@ public class AlgorithmController extends Controller {
     private ArrayList<Individual> population;
     private HashMap<String, Integer> constraints;
     private ArrayList<Point> genesArray;
+    private EventSource event;
 
     public Result index() {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
 
-        EventSource e = new EventSource() {
-            @Override
-            public void onConnected() {
-                this.send(new Event("Algorithm started", "mess", "mess"));
-            }
-        };
+        event.send(new EventSource.Event("Algorithm started", "mess", "mess"));
 
         // Initializing global variables
         maxFitness = 0;
@@ -185,6 +181,17 @@ public class AlgorithmController extends Controller {
         trip.insert();
 
         return ok();
+    }
+
+    public Result event() {
+        event = new EventSource() {
+            @Override
+            public void onConnected() {
+                this.send(new Event("Registered", "mess", "mess"));
+            }
+        };
+
+        return ok(event);
     }
 
     private void evolution() {
