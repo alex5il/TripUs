@@ -5,12 +5,13 @@ tripUsControllers.controller('requirementsCtrl',
             // handles the callback from the received event
             var handleCallback = function (msg) {
                 $scope.$apply(function () {
-                    $scope.msg = JSON.parse(msg.data)
+                    //$scope.msg = JSON.parse(msg.data)
+                    console.log(msg);
                 });
             };
 
-    var source = new EventSource('/stats');
-            source.addEventListener('message', handleCallback, false);
+            var source = new EventSource('/Alg/event');
+            source.addEventListener('mes', handleCallback, false);
 
             $scope.requirements = {
                 ratings: []
