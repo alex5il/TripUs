@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import data.*;
 import org.jongo.MongoCursor;
+import play.libs.EventSource;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -52,6 +53,7 @@ public class AlgorithmController extends Controller {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
+        String pointsNum = values.get("pointsNum").asText();
 
         // Initializing global variables
         maxFitness = 0;
@@ -177,6 +179,17 @@ public class AlgorithmController extends Controller {
         trip.insert();
 
         return ok();
+    }
+
+    public Result tripStarted() {
+        EventSource e = new EventSource() {
+            @Override
+            public void onConnected() {
+                this.send(new Event("Algorithm started", "mess", "mess"));
+            }
+        };
+
+        return ok(e);
     }
 
     private void evolution() {
