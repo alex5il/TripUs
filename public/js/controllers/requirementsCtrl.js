@@ -90,7 +90,7 @@ tripUsControllers.controller('requirementsCtrl',
                     // If leader - run the algorithm and redirect to results page
                     if ($scope.isLeader) {
                         // Call to start alghorithm
-                        alghorithm.start($routeParams.groupId).then(function (res) {
+                        alghorithm.start($routeParams.groupId, $scope.pointsNum).then(function (res) {
                             $scope.errorMsg = false;
                             $scope.okMsg = "Algorithm started!";
                         }, function (res) {
