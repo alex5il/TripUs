@@ -48,14 +48,19 @@ public class AlgorithmController extends Controller {
     private ArrayList<Individual> population;
     private HashMap<String, Integer> constraints;
     private ArrayList<Point> genesArray;
-    private EventSource event;
+
+    // Event source for communication
+    private EventSource event = new EventSource() {
+        @Override
+        public void onConnected() {
+            this.send(new Event("Connected to group event source.", "conn", "conn"));
+        }
+    };
 
     public Result index() {
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
-
-        event.send(new EventSource.Event("Algorithm started", "mess", "mess"));
 
         // Initializing global variables
         maxFitness = 0;
@@ -183,15 +188,18 @@ public class AlgorithmController extends Controller {
         return ok();
     }
 
-    public Result event() {
-        event = new EventSource() {
-            @Override
-            public void onConnected() {
-                this.send(new Event("Registered", "mess", "mess"));
-            }
-        };
-
+    // Register for event source
+    public Result regEvent() {
         return ok(event);
+    }
+
+    // Send event that algorithm has started to team members
+    public Result sendEvent() {
+        final JsonNode values = request().body().asJson();
+        String tripKey = values.get("groupKey").asText();
+
+        event.send(new EventSource.Event("Algorithm started.", tripKey, tripKey));
+        return ok();
     }
 
     private void evolution() {

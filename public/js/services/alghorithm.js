@@ -6,6 +6,10 @@ tripUsServices.service('alghorithm', ['Restangular', function(Restangular){
     return {
         start: function(groupKey, pointsNum){
             return baseAlg.customPOST({groupKey: groupKey, pointsNum:pointsNum}, "start", {}, {});
+        },
+
+        sendEvent: function(groupKey){
+            return baseAlg.customPOST({groupKey: groupKey}, "sendEvent", {}, {});
         }
     };
 }]);
