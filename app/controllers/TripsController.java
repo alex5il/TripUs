@@ -1,16 +1,13 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import data.Amenity;
 import data.Pick;
 import data.Trip;
 import data.User;
-import org.jongo.MongoCursor;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -66,6 +63,9 @@ public class TripsController extends Controller {
         if (theUser == null) {
             return badRequest("Your user wasn't found");
         }
+
+        Integer pointToVisit = values.get("pointsNum").asInt();
+        theUser.setPointNumber(pointToVisit);
 
         JsonNode array = values.get("reqs");
         if (array.isArray()) {

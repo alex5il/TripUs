@@ -14,11 +14,20 @@ public class User {
     private String name;
     private Boolean isAdmin;
     private Boolean addedReqs;
+    private Integer pointNumber;
 
     public User() {}
 
     public User(String name) {
         this.name = name;
+    }
+
+    public Integer getPointNumber() {
+        return pointNumber;
+    }
+
+    public void setPointNumber(Integer pointNumber) {
+        this.pointNumber = pointNumber;
     }
 
     public Boolean getAddedReqs() {
