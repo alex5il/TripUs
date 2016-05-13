@@ -14,7 +14,7 @@ public class User {
     private String name;
     private Boolean isAdmin;
     private Boolean addedReqs;
-    private Integer pointNumber;
+    private Integer pointsNumber;
 
     public User() {}
 
@@ -22,12 +22,12 @@ public class User {
         this.name = name;
     }
 
-    public Integer getPointNumber() {
-        return pointNumber;
+    public Integer getPointsNumber() {
+        return pointsNumber;
     }
 
-    public void setPointNumber(Integer pointNumber) {
-        this.pointNumber = pointNumber;
+    public void setPointsNumber(Integer pointsNumber) {
+        this.pointsNumber = pointsNumber;
     }
 
     public Boolean getAddedReqs() {

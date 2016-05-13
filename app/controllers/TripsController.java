@@ -65,7 +65,7 @@ public class TripsController extends Controller {
         }
 
         Integer pointToVisit = values.get("pointsNum").asInt();
-        theUser.setPointNumber(pointToVisit);
+        theUser.setPointsNumber(pointToVisit);
 
         JsonNode array = values.get("reqs");
         if (array.isArray()) {
