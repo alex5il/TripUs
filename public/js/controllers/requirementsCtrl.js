@@ -1,6 +1,17 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location','$routeParams' , 'group', 'amenityService', 'Restangular', 'alghorithm', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm) {
 
+
+            // handles the callback from the received event
+            var handleCallback = function (msg) {
+                $scope.$apply(function () {
+                    $scope.msg = JSON.parse(msg.data)
+                });
+            };
+
+    var source = new EventSource('/stats');
+            source.addEventListener('message', handleCallback, false);
+
             $scope.requirements = {
                 ratings: []
             };
