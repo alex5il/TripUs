@@ -60,13 +60,13 @@
     <!--Submit requirements-->
     <div class="row" ng-if="!isLeader">
         <div class="col-xs-12 text-center">
-            <button class="btn btn-primary" ng-click="submit()">Submit Requirements</button>
+            <button class="btn btn-primary" ng-click="submit()" ng-disabled="isSubmited">Submit Requirements</button>
         </div>
     </div>
 
     <div ng-if="isLeader" class="row">
         <div class="col-xs-12 text-center">
-            <button class="btn btn-primary" ng-click="submit()">Search Trip!</button>
+            <button class="btn btn-primary" ng-click="submit()" ng-disabled="isSubmited">Search Trip!</button>
         </div>
     </div>
 

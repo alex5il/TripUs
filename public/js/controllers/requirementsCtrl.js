@@ -75,6 +75,9 @@ tripUsControllers.controller('requirementsCtrl',
         };
 
         $scope.submit = function () {
+
+            $scope.isSubmited = true;
+
             // Check validations
             var tempReq = $scope.requirements.ratings.slice(0);
 
@@ -88,6 +91,8 @@ tripUsControllers.controller('requirementsCtrl',
             if (!$routeParams.groupId && !$routeParams.userName) {
                 $scope.errorMsg = "Url doesn't contain user or group key";
                 $scope.okMsg = false;
+
+                $scope.isSubmited = false;
                 return;
             } else {
                 $scope.errorMsg = false;
@@ -97,6 +102,8 @@ tripUsControllers.controller('requirementsCtrl',
             if (hasDuplicates(tempReq)) {
                 $scope.errorMsg = "There are duplicates in amenities, remove them fist";
                 $scope.okMsg = false;
+
+                $scope.isSubmited = false;
                 return;
             } else {
                 $scope.errorMsg = false;
@@ -116,15 +123,21 @@ tripUsControllers.controller('requirementsCtrl',
                     }, function (res) {
                         $scope.errorMsg = res.data;
                         $scope.okMsg = false;
+
+                        $scope.isSubmited = false;
                     });
 
                     // Sending event to other clients
                     alghorithm.sendEvent($routeParams.groupId).then(function (res) {
                         $scope.errorMsg = false;
                         $scope.okMsg = "Event sent!";
+
+                        $scope.isSubmited = false;
                     }, function (res) {
                         $scope.errorMsg = res.data;
                         $scope.okMsg = false;
+
+                        $scope.isSubmited = false;
                     });
 
                     //Routes to result page
@@ -133,6 +146,8 @@ tripUsControllers.controller('requirementsCtrl',
             }, function (res) {
                 $scope.errorMsg = res.data;
                 $scope.okMsg = false;
+
+                $scope.isSubmited = false;
             });
 
 
