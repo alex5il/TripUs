@@ -29,17 +29,22 @@ div.resultsContainer {
 }
 
 /* Let's get this party started */
-.results-container::-webkit-scrollbar {
+.results-container::-webkit-scrollbar,
+.trip-description::-webkit-scrollbar
+ {
     width: 8px;
 }
 
 /* Track */
-.results-container::-webkit-scrollbar-track {
+.results-container::-webkit-scrollbar-track,
+.trip-description::-webkit-scrollbar-track,
+{
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
 /* Handle */
-.results-container::-webkit-scrollbar-thumb {
+.results-container::-webkit-scrollbar-thumb,
+.trip-description::-webkit-scrollbar-thumb {
     background: #337AB7;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
@@ -47,9 +52,9 @@ div.resultsContainer {
     background: #337AB7;
 }
 
-.results-container .list-group-item:first-child, .results-container .list-group-item:last-child{
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.results-container .list-group-item:first-child, .results-container .list-group-item:last-child,
+.trip-description .list-group-item:first-child, .trip-description .list-group-item:last-child{
+    border-radius: 0;
 }
 
 .resultsContainer #loading-bar-spinner {
@@ -64,4 +69,11 @@ div.resultsContainer {
     display: inline-block;
     position: relative;
     top: 3px;
+}
+
+.trip-description {
+    max-height: 300px;
+    overflow: auto;
+    width: 704px;
+    box-shadow: 1px 1px 5px black;
 }
