@@ -43,9 +43,14 @@ tripUsControllers.controller('requirementsCtrl',
 
         // Get data from server if user was already at this group
         group.reqGet($routeParams.groupId, $routeParams.userName).then(function (res) {
+
+            $scope.isSubmited = res.addedReqs;
+
             $scope.isLeader = res.isLeader;
 
             $scope.pointsNum = res.pointsNum || 5;
+
+            console.log(res);
 
             _(res.reqs).forEach(function (n) {
                 n.selectedAmenity = n.amenity;
