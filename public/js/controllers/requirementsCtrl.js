@@ -15,9 +15,9 @@ tripUsControllers.controller('requirementsCtrl',
             if(this.value > 20){
                 $scope.pointsNum = 20;
                 this.value = 20;
-            } else if (this.value < 0) {
-                $scope.pointsNum = 0;
-                this.value =0;
+            } else if (this.value < 5) {
+                $scope.pointsNum = 5;
+                this.value =5;
             }
         });
 
