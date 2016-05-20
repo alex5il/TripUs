@@ -56,7 +56,8 @@ public class User {
     }
 
     public String getRequirementsJsonReturn() {
-        StringBuilder returnArrayJson = new StringBuilder("{\"pointsNum\":" + this.getPointsNumber() + ",\"isLeader\":" + this.isAdmin.toString() + ",\"reqs\":[");
+        StringBuilder returnArrayJson = new StringBuilder("{\"pointsNum\":" + this.getPointsNumber() + ",\"isLeader\":" + this.isAdmin.toString() +
+                ",\"addedReqs\":" + this.addedReqs.toString() + ",\"reqs\":[");
         if (requirements != null) {
             for (int i = 0; i < requirements.length; i++) {
                 returnArrayJson.append("{ \"amenity\":\"" + requirements[i].getAmenity() + "\",\"rank\":\"" + requirements[i].getRank() + "\"}");
