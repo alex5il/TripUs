@@ -7,6 +7,7 @@
 
 .angular-google-map-container {
     height: 400px;
+    box-shadow: 1px 1px 5px black;
     width: 500px;
 }
 
@@ -21,6 +22,8 @@ div.resultsContainer {
 }
 
 .results-container{
+    box-shadow: 1px 1px 5px black;
+    background: #F4F5EF;
     height: 400px;
     overflow-y: auto;
 }
