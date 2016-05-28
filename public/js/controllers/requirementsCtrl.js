@@ -1,5 +1,13 @@
 tripUsControllers.controller('requirementsCtrl',
-    ['$scope', '$location', '$routeParams', 'group', 'amenityService', 'Restangular', 'alghorithm', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm) {
+    ['$scope', '$location', '$routeParams', 'group', 'amenityService', 'Restangular', 'alghorithm', 'TripResults', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm, TripResults) {
+
+        // Get submitted users wia HTTP request
+        TripResults.getSubmittedUsers($routeParams.groupId).then(function(res){
+            console.log(res);
+            $scope.submittedUsers = res;
+        }, function(res){ // ERR
+            console.error("Sad face");
+        });
 
 
         // handles the callback from conn event

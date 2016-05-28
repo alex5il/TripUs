@@ -5,6 +5,9 @@ tripUsServices.service('TripResults', ['Restangular', function(Restangular){
     return {
         get: function(groupKey){
             return baseTrip.customGET("result", {"tripGroupKey": groupKey});
+        },
+        getSubmittedUsers: function(groupKey){
+            return baseTrip.customGET("submitted", {"tripGroupKey": groupKey});
         }
     };
 }]);
