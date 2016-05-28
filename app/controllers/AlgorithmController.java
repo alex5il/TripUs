@@ -58,6 +58,8 @@ public class AlgorithmController extends Controller {
     };
 
     public Result index() {
+        int suggestedTrip = 0;
+
         // Getting group key
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
@@ -128,7 +130,7 @@ public class AlgorithmController extends Controller {
             firstInd.genome.add(point);
         });
 
-        trip.addAnotherResult(new data.Result("first", toTrack(firstInd.genome)));
+        trip.addAnotherResult(new data.Result("Trip Suggestion: " + ++suggestedTrip, toTrack(firstInd.genome)));
         trip.insert();
         // *************************************************************** //
 
@@ -170,7 +172,7 @@ public class AlgorithmController extends Controller {
                 // Submitting new result
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
-                trip.addAnotherResult(new data.Result(Integer.toString(i), track));
+                trip.addAnotherResult(new data.Result("Trip Suggestion: " + ++suggestedTrip, track));
                 trip.insert();
             }
         }
@@ -178,7 +180,7 @@ public class AlgorithmController extends Controller {
         // Submitting final result
         Individual best = bestIndividual();
         Point[] track = toTrack(best.genome);
-        trip.addAnotherResult(new data.Result(Integer.toString(ITERATIONS), track));
+        trip.addAnotherResult(new data.Result("Optimal Trip", track));
         trip.setFinished(true);
         trip.insert();
 
