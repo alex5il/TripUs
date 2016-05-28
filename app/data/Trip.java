@@ -101,6 +101,20 @@ public class Trip {
         this.users = users;
     }
 
+    public String getSubmittedUsers() {
+        StringBuilder returnArrayJson = new StringBuilder("[");
+
+        if (this.users != null) {
+            for (int i = 0; i < users.length; i++) {
+                returnArrayJson.append(users[i].getName());
+                if (i < users.length - 1)
+                    returnArrayJson.append(",");
+            }
+        }
+
+        return returnArrayJson.toString();
+    }
+
     public String getTripResults() {
         StringBuilder returnArrayJson = new StringBuilder("{\"results\":[");
         if (this.results != null) {

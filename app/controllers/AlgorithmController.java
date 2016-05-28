@@ -172,7 +172,8 @@ public class AlgorithmController extends Controller {
                 // Submitting new result
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
-                trip.addAnotherResult(new data.Result("Trip Suggestion: " + ++suggestedTrip, track));
+                trip.addAnotherResult(new data.Result("Longest Trip", track));
+                ++suggestedTrip;
                 trip.insert();
             }
         }

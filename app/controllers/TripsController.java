@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import data.Pick;
 import data.Trip;
 import data.User;
+import play.libs.EventSource;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -14,6 +15,18 @@ import java.util.Random;
  * Created by sergio on 20/04/2016.
  */
 public class TripsController extends Controller {
+    // Event source for communication
+    private EventSource submittedEvent = new EventSource() {
+        @Override
+        public void onConnected() {
+            this.send(new Event("Connected to submitted users event source.", "sub", "sub"));
+        }
+    };
+
+    public Result reqSubmitEvent() {
+        return ok(submittedEvent);
+    }
+
     public Result createTrip() {
         final JsonNode values = request().body().asJson();
         String tripGroupName = values.get("name").asText();
@@ -80,6 +93,8 @@ public class TripsController extends Controller {
             theUser.setRequirements(picks);
             tripForDb.insert();
         }
+
+        submittedEvent.send(new EventSource.Event(userName, tripGroupKey, tripGroupKey));
         return ok("Your requests was updated");
     }
 
