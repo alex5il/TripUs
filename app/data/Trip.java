@@ -106,11 +106,18 @@ public class Trip {
 
         if (this.users != null) {
             for (int i = 0; i < users.length; i++) {
-                returnArrayJson.append(users[i].getName());
-                if (i < users.length - 1)
+                if (users[i].getAddedReqs()) {
+                    returnArrayJson.append("\"" + users[i].getName() + "\"");
                     returnArrayJson.append(",");
+                }
             }
         }
+
+        if (returnArrayJson.charAt(returnArrayJson.length() - 1) == ',') {
+            // Remove the last period char
+            returnArrayJson.deleteCharAt(returnArrayJson.length() - 1);
+        }
+
         returnArrayJson.append("]}");
 
         return returnArrayJson.toString();
