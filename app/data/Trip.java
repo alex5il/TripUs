@@ -102,7 +102,7 @@ public class Trip {
     }
 
     public String getSubmittedUsers() {
-        StringBuilder returnArrayJson = new StringBuilder("[");
+        StringBuilder returnArrayJson = new StringBuilder("{\"names\":[");
 
         if (this.users != null) {
             for (int i = 0; i < users.length; i++) {
@@ -111,7 +111,7 @@ public class Trip {
                     returnArrayJson.append(",");
             }
         }
-        returnArrayJson.append("]");
+        returnArrayJson.append("]}");
 
         return returnArrayJson.toString();
     }
