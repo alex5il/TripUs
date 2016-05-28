@@ -1,13 +1,47 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location', '$routeParams', 'group', 'amenityService', 'Restangular', 'alghorithm', 'TripResults', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm, TripResults) {
 
-        // Get submitted users wia HTTP request
-        TripResults.getSubmittedUsers($routeParams.groupId).then(function(res){
-            console.log(res);
-            $scope.submittedUsers = res;
-        }, function(res){ // ERR
-            console.error("Sad face");
-        });
+
+        var sourceSubmitted = new EventSource('/Trip/reqSubmitEvent');
+        sourceSubmitted.addEventListener('sub', handleConnSubmitted, false);
+        sourceSubmitted.addEventListener($routeParams.groupId, handleStartSubmitted, false);
+
+        // handles the callback from conn event
+        var handleConnSubmitted = function (msg) {
+            $scope.$apply(function () {
+                //$scope.msg = JSON.parse(msg.data)
+                console.log(msg.data);
+
+
+                // Get submitted users wia HTTP request
+                TripResults.getSubmittedUsers($routeParams.groupId).then(function(res){
+                    console.log(res);
+                    $scope.submittedUsers = res.names;
+                }, function(res){ // ERR
+                    console.error("Sad face");
+                });
+            });
+        };
+
+        // handles the callback from algorithm start event
+        var handleStartSubmitted = function (msg) {
+            $scope.$apply(function () {
+                //Routes to result page
+                //$location.path("/tripResults/" + $routeParams.groupId);
+            });
+        };
+
+        var source = new EventSource('/Alg/regEvent');
+        source.addEventListener('conn', handleConn, false);
+        source.addEventListener($routeParams.groupId, handleStart, false);
+
+        // handles the callback from algorithm start event
+        var handleStart = function (msg) {
+            $scope.$apply(function () {
+                //Routes to result page
+                $location.path("/tripResults/" + $routeParams.groupId);
+            });
+        };
 
 
         // handles the callback from conn event
@@ -28,18 +62,6 @@ tripUsControllers.controller('requirementsCtrl',
                 this.value =5;
             }
         });
-
-        // handles the callback from algorithm start event
-        var handleStart = function (msg) {
-            $scope.$apply(function () {
-                //Routes to result page
-                $location.path("/tripResults/" + $routeParams.groupId);
-            });
-        };
-
-        var source = new EventSource('/Alg/regEvent');
-        source.addEventListener('conn', handleConn, false);
-        source.addEventListener($routeParams.groupId, handleStart, false);
 
         $scope.requirements = {
             ratings: []
