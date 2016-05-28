@@ -39,7 +39,7 @@ tripUsControllers.controller('requirementsCtrl',
 
         $scope.groupKey = $routeParams.groupId;
 
-        $scope.pointsNum = $scope.pointsNum || 5;
+        $scope.pointsNum = $scope.pointsNum || 8;
 
         // Get data from server if user was already at this group
         group.reqGet($routeParams.groupId, $routeParams.userName).then(function (res) {
@@ -48,7 +48,7 @@ tripUsControllers.controller('requirementsCtrl',
 
             $scope.isLeader = res.isLeader;
 
-            $scope.pointsNum = res.pointsNum || 5;
+            $scope.pointsNum = res.pointsNum || 8;
 
             console.log(res);
 
