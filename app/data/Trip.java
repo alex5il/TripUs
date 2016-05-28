@@ -111,6 +111,7 @@ public class Trip {
                     returnArrayJson.append(",");
             }
         }
+        returnArrayJson.append("]");
 
         return returnArrayJson.toString();
     }

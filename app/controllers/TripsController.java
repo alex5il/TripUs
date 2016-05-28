@@ -174,4 +174,13 @@ public class TripsController extends Controller {
         }
         return ok(tripForDb.getTripResults());
     }
+
+    public Result getSubmittedUsers(String tripGroupKey) {
+        Trip tripForDb = Trip.findByKey(tripGroupKey);
+        if (tripForDb == null) {
+            return badRequest("Wrong Trip key");
+        }
+        return ok(tripForDb.getSubmittedUsers());
+    }
+
 }

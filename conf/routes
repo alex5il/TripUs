@@ -3,21 +3,22 @@
 # ~~~~
 
 # Home page
-GET         /Home                      controllers.Application.index()
-GET         /AllAmenities              controllers.AmenitiesController.getAllAmenities()
-GET         /AllAmenitiesFilter        controllers.AmenitiesController.getAllAmenitiesWithFilter(word : String)
-POST        /Trip/create               controllers.TripsController.createTrip()
-POST        /Trip/join                 controllers.TripsController.joinTrip()
-POST        /Trip/user/reqSet          controllers.TripsController.setReq()
-POST        /Trip/user/reqGet          controllers.TripsController.getReq()
-GET         /Trip/result               controllers.TripsController.getTripResults(tripGroupKey : String)
-GET         /Trip/reqSubmitEvent       controllers.TripsController.reqSubmitEvent()
-GET         /Alg/regEvent              controllers.AlgorithmController.regEvent()
-POST        /Alg/sendEvent             controllers.AlgorithmController.sendEvent()
-POST        /Alg/start                 controllers.AlgorithmController.index()
-GET         /Alg                       controllers.AlgorithmController.index()
+GET         /Home                       controllers.Application.index()
+GET         /AllAmenities               controllers.AmenitiesController.getAllAmenities()
+GET         /AllAmenitiesFilter         controllers.AmenitiesController.getAllAmenitiesWithFilter(word : String)
+POST        /Trip/create                controllers.TripsController.createTrip()
+POST        /Trip/join                  controllers.TripsController.joinTrip()
+POST        /Trip/user/reqSet           controllers.TripsController.setReq()
+POST        /Trip/user/reqGet           controllers.TripsController.getReq()
+GET         /Trip/result                controllers.TripsController.getTripResults(tripGroupKey : String)
+GET         /Trip/submitted             controllers.TripsController.getSubmittedUsers(tripGroupKey : String)
+GET         /Trip/reqSubmitEvent        controllers.TripsController.reqSubmitEvent()
+GET         /Alg/regEvent               controllers.AlgorithmController.regEvent()
+POST        /Alg/sendEvent              controllers.AlgorithmController.sendEvent()
+POST        /Alg/start                  controllers.AlgorithmController.index()
+GET         /Alg                        controllers.AlgorithmController.index()
 
-GET         /                          controllers.Assets.at(path="/public", file="index.html")
+GET         /                           controllers.Assets.at(path="/public", file="index.html")
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
