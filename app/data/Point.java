@@ -1,12 +1,12 @@
 package data;
 
-import com.google.common.collect.Lists;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 import play.Play;
 import uk.co.panaxiom.playjongo.PlayJongo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -39,6 +39,23 @@ public class Point {
 
     public static MongoCursor<Point> getByAmenities(Collection<String> amenities) {
         return getPointsCollection().find("{'properties.amenity':{$in:#}}", amenities).as(Point.class);
+    }
+
+    public static ArrayList<Point> getByAmenities(Collection<String> amenities, int limit) {
+        MongoCursor<Point> pointsCursor;
+        ArrayList<Point> pointsArray = new ArrayList<>();
+
+        // Fetching in loop so that every amenity will get equal amount of results
+        for (String amenity : amenities) {
+            pointsCursor = getPointsCollection().find("{'properties.amenity':#}", amenity).
+                    limit(limit / amenities.size()).as(Point.class);
+            
+            pointsCursor.forEach(point -> {
+                pointsArray.add(point);
+            });
+        }
+
+        return pointsArray;
     }
 
     public String getId() {
