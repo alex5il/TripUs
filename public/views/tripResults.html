@@ -12,7 +12,7 @@
                 </div>
                 <button class="list-group-item" ng-repeat="route in polylines track by route.id"
                      ng-click="setPathMarkers(route)">
-                    Trip Suggestion : {{parseInt(route.id) + 1 }}
+                    {{ route.name }}
                 </button>
             </div>
         </div>

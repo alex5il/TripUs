@@ -33,6 +33,7 @@ tripUsControllers.controller('tripResultsCtrl', function ($scope, TripResults, $
                 angular.forEach($scope.tripResults, function (tripResult, index) {
                     $scope.polylines.push({
                         id : index,
+                        name: tripResult.name,
                         path: tripResult.points,
                         stroke: {
                             color: '#6060FB',
