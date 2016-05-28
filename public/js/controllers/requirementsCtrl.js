@@ -1,11 +1,6 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location', '$routeParams', 'group', 'amenityService', 'Restangular', 'alghorithm', 'TripResults', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm, TripResults) {
 
-
-        var sourceSubmitted = new EventSource('/Trip/reqSubmitEvent');
-        sourceSubmitted.addEventListener('sub', handleConnSubmitted, false);
-        sourceSubmitted.addEventListener($routeParams.groupId, handleStartSubmitted, false);
-
         // handles the callback from conn event
         var handleConnSubmitted = function (msg) {
             $scope.$apply(function () {
@@ -14,10 +9,10 @@ tripUsControllers.controller('requirementsCtrl',
 
 
                 // Get submitted users wia HTTP request
-                TripResults.getSubmittedUsers($routeParams.groupId).then(function(res){
+                TripResults.getSubmittedUsers($routeParams.groupId).then(function (res) {
                     console.log(res);
                     $scope.submittedUsers = res.names;
-                }, function(res){ // ERR
+                }, function (res) { // ERR
                     console.error("Sad face");
                 });
             });
@@ -31,9 +26,9 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-        var source = new EventSource('/Alg/regEvent');
-        source.addEventListener('conn', handleConn, false);
-        source.addEventListener($routeParams.groupId, handleStart, false);
+        var sourceSubmitted = new EventSource('/Trip/reqSubmitEvent');
+        sourceSubmitted.addEventListener('sub', handleConnSubmitted, false);
+        sourceSubmitted.addEventListener($routeParams.groupId, handleStartSubmitted, false);
 
         // handles the callback from algorithm start event
         var handleStart = function (msg) {
@@ -43,7 +38,6 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-
         // handles the callback from conn event
         var handleConn = function (msg) {
             $scope.$apply(function () {
@@ -52,14 +46,18 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
+        var source = new EventSource('/Alg/regEvent');
+        source.addEventListener('conn', handleConn, false);
+        source.addEventListener($routeParams.groupId, handleStart, false);
+
         // No power crap
         $("#poi").bind('keyup mouseup', function () {
-            if(this.value > 20){
+            if (this.value > 20) {
                 $scope.pointsNum = 20;
                 this.value = 20;
             } else if (this.value < 5) {
                 $scope.pointsNum = 5;
-                this.value =5;
+                this.value = 5;
             }
         });
 
