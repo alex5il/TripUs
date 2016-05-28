@@ -1,7 +1,7 @@
 tripUsControllers.controller('requirementsCtrl',
     ['$scope', '$location', '$routeParams', 'group', 'amenityService', 'Restangular', 'alghorithm', 'TripResults', function ($scope, $location, $routeParams, group, amenityService, Restangular, alghorithm, TripResults) {
 
-        // handles the callback from conn event
+        // handles connection to submit event
         var handleConnSubmitted = function (msg) {
             $scope.$apply(function () {
                 //$scope.msg = JSON.parse(msg.data)
@@ -18,11 +18,10 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-        // handles the callback from algorithm start event
+        // handles the callback from submit event
         var handleStartSubmitted = function (msg) {
             $scope.$apply(function () {
-                //Routes to result page
-                //$location.path("/tripResults/" + $routeParams.groupId);
+                console.log("User " + msg.data + " submitted reqs.");
             });
         };
 
