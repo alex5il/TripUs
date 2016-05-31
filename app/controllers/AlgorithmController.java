@@ -49,16 +49,11 @@ public class AlgorithmController extends Controller {
     private HashMap<String, Integer> constraints;
     private ArrayList<Point> genesArray;
 
-    // Event source for communication
-    private EventSource event = new EventSource() {
-        @Override
-        public void onConnected() {
-            this.send(new Event("Connected to group event source.", "conn", "conn"));
-        }
-    };
+    // Hash map of events for communication
+    HashMap<String, ArrayList<EventSource>> events = new HashMap<>();
 
     public Result index() {
-        int suggestedTrip = 0;
+        int suggestedTrip = 1;
 
         // Getting group key
         final JsonNode values = request().body().asJson();
@@ -130,7 +125,7 @@ public class AlgorithmController extends Controller {
             firstInd.genome.add(point);
         });
 
-        trip.addAnotherResult(new data.Result("Trip Suggestion: " + ++suggestedTrip, toTrack(firstInd.genome)));
+        trip.addAnotherResult(new data.Result("Longest Trip", toTrack(firstInd.genome)));
         trip.insert();
         // *************************************************************** //
 
@@ -172,8 +167,7 @@ public class AlgorithmController extends Controller {
                 // Submitting new result
                 Individual best = bestIndividual();
                 Point[] track = toTrack(best.genome);
-                trip.addAnotherResult(new data.Result("Longest Trip", track));
-                ++suggestedTrip;
+                trip.addAnotherResult(new data.Result("Trip Suggestion: " + ++suggestedTrip, track));
                 trip.insert();
             }
         }
@@ -185,11 +179,32 @@ public class AlgorithmController extends Controller {
         trip.setFinished(true);
         trip.insert();
 
+        events.remove(tripKey);
+
         return ok();
     }
 
     // Register for event source
     public Result regEvent() {
+        EventSource event = new EventSource() {
+            @Override
+            public void onConnected() {
+                this.send(new Event("Connected to algorithm event source.", "alg", "alg"));
+            }
+        };
+
+        ArrayList<EventSource> eventsArray;
+
+        if (events.containsKey("1")) {
+            eventsArray = events.get("1");
+            eventsArray.add(event);
+        } else {
+            eventsArray = new ArrayList<>();
+            eventsArray.add(event);
+        }
+
+        events.put("1", eventsArray);
+
         return ok(event);
     }
 
@@ -198,7 +213,10 @@ public class AlgorithmController extends Controller {
         final JsonNode values = request().body().asJson();
         String tripKey = values.get("groupKey").asText();
 
-        event.send(new EventSource.Event("Algorithm started.", tripKey, tripKey));
+        for (EventSource event : events.get(tripKey)) {
+            event.send(new EventSource.Event("Algorithm started.", tripKey, tripKey));
+        }
+
         return ok();
     }
 

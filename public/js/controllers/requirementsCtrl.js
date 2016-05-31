@@ -7,7 +7,6 @@ tripUsControllers.controller('requirementsCtrl',
                 //$scope.msg = JSON.parse(msg.data)
                 console.log(msg.data);
 
-
                 // Get submitted users wia HTTP request
                 TripResults.getSubmittedUsers($routeParams.groupId).then(function (res) {
                     console.log(res);
@@ -46,7 +45,7 @@ tripUsControllers.controller('requirementsCtrl',
         };
 
         var source = new EventSource('/Alg/regEvent');
-        source.addEventListener('conn', handleConn, false);
+        source.addEventListener('alg', handleConn, false);
         source.addEventListener($routeParams.groupId, handleStart, false);
 
         // No power crap
@@ -76,8 +75,6 @@ tripUsControllers.controller('requirementsCtrl',
             $scope.isLeader = res.isLeader;
 
             $scope.pointsNum = res.pointsNum || 8;
-
-            console.log(res);
 
             _(res.reqs).forEach(function (n) {
                 n.selectedAmenity = n.amenity;
