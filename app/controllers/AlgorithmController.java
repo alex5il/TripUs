@@ -185,7 +185,7 @@ public class AlgorithmController extends Controller {
     }
 
     // Register for event source
-    public Result regEvent() {
+    public Result regEvent(String tripKey) {
         EventSource event = new EventSource() {
             @Override
             public void onConnected() {
@@ -195,15 +195,14 @@ public class AlgorithmController extends Controller {
 
         ArrayList<EventSource> eventsArray;
 
-        if (events.containsKey("1")) {
-            eventsArray = events.get("1");
-            eventsArray.add(event);
+        if (events.containsKey(tripKey)) {
+            eventsArray = events.get(tripKey);
         } else {
             eventsArray = new ArrayList<>();
-            eventsArray.add(event);
+            events.put(tripKey, eventsArray);
         }
 
-        events.put("1", eventsArray);
+        eventsArray.add(event);
 
         return ok(event);
     }

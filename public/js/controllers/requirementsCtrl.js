@@ -24,7 +24,7 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-        var sourceSubmitted = new EventSource('/Trip/reqSubmitEvent');
+        var sourceSubmitted = new EventSource('/Trip/reqSubmitEvent?tripKey=' + $routeParams.groupId);
         sourceSubmitted.addEventListener('sub', handleConnSubmitted, false);
         sourceSubmitted.addEventListener($routeParams.groupId, handleStartSubmitted, false);
 
@@ -44,7 +44,7 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-        var source = new EventSource('/Alg/regEvent');
+        var source = new EventSource('/Alg/regEvent?tripKey=' + $routeParams.groupId);
         source.addEventListener('alg', handleConn, false);
         source.addEventListener($routeParams.groupId, handleStart, false);
 
@@ -169,8 +169,8 @@ tripUsControllers.controller('requirementsCtrl',
                         $scope.isSubmited = false;
                     });
 
-                    //Routes to result page
-                    $location.path("/tripResults/" + $routeParams.groupId);
+                    ////Routes to result page
+                    //$location.path("/tripResults/" + $routeParams.groupId);
                 }
             }, function (res) {
                 $scope.errorMsg = res.data;

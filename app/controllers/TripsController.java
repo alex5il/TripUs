@@ -9,22 +9,36 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
  * Created by sergio on 20/04/2016.
  */
 public class TripsController extends Controller {
-    // Event source for communication
-    private EventSource submittedEvent = new EventSource() {
-        @Override
-        public void onConnected() {
-            this.send(new Event("Connected to submitted users event source.", "sub", "sub"));
-        }
-    };
+    // Hash map of events for communication
+    HashMap<String, ArrayList<EventSource>> submitEvents = new HashMap<>();
 
-    public Result reqSubmitEvent() {
-        return ok(submittedEvent);
+    public Result reqSubmitEvent(String tripKey) {
+        EventSource event = new EventSource() {
+            @Override
+            public void onConnected() {
+                this.send(new Event("Connected to submit event source.", "sub", "sub"));
+            }
+        };
+
+        ArrayList<EventSource> eventsArray;
+
+        if (submitEvents.containsKey(tripKey)) {
+            eventsArray = submitEvents.get(tripKey);
+        } else {
+            eventsArray = new ArrayList<>();
+            submitEvents.put(tripKey, eventsArray);
+        }
+
+        eventsArray.add(event);
+
+        return ok(event);
     }
 
     public Result createTrip() {
@@ -94,7 +108,9 @@ public class TripsController extends Controller {
             tripForDb.insert();
         }
 
-        submittedEvent.send(new EventSource.Event(userName, tripGroupKey, tripGroupKey));
+        for (EventSource event : submitEvents.get(tripGroupKey)) {
+            event.send(new EventSource.Event(userName, tripGroupKey, tripGroupKey));
+        }
         return ok("Your requests was updated");
     }
 
