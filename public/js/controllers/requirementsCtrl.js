@@ -103,6 +103,35 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
+        $scope.searchTrip = function() {
+            // If leader - run the algorithm and redirect to results page
+            if ($scope.isLeader) {
+                // Call to start alghorithm
+                alghorithm.start($routeParams.groupId, $scope.pointsNum).then(function (res) {
+                    $scope.errorMsg = false;
+                    $scope.okMsg = "Algorithm started!";
+                }, function (res) {
+                    $scope.errorMsg = res.data;
+                    $scope.okMsg = false;
+
+                    $scope.isSubmited = false;
+                });
+
+                // Sending event to other clients
+                alghorithm.sendEvent($routeParams.groupId).then(function (res) {
+                    $scope.errorMsg = false;
+                    $scope.okMsg = "Event sent!";
+
+                    $scope.isSubmited = false;
+                }, function (res) {
+                    $scope.errorMsg = res.data;
+                    $scope.okMsg = false;
+
+                    $scope.isSubmited = false;
+                });
+            }
+        };
+
         $scope.submit = function () {
 
             $scope.isSubmited = true;
@@ -143,43 +172,15 @@ tripUsControllers.controller('requirementsCtrl',
                 $scope.errorMsg = false;
                 $scope.okMsg = "Awesome data sent!";
 
-                // If leader - run the algorithm and redirect to results page
-                if ($scope.isLeader) {
-                    // Call to start alghorithm
-                    alghorithm.start($routeParams.groupId, $scope.pointsNum).then(function (res) {
-                        $scope.errorMsg = false;
-                        $scope.okMsg = "Algorithm started!";
-                    }, function (res) {
-                        $scope.errorMsg = res.data;
-                        $scope.okMsg = false;
+                $scope.submitDone = true;
 
-                        $scope.isSubmited = false;
-                    });
-
-                    // Sending event to other clients
-                    alghorithm.sendEvent($routeParams.groupId).then(function (res) {
-                        $scope.errorMsg = false;
-                        $scope.okMsg = "Event sent!";
-
-                        $scope.isSubmited = false;
-                    }, function (res) {
-                        $scope.errorMsg = res.data;
-                        $scope.okMsg = false;
-
-                        $scope.isSubmited = false;
-                    });
-
-                    ////Routes to result page
-                    //$location.path("/tripResults/" + $routeParams.groupId);
-                }
             }, function (res) {
                 $scope.errorMsg = res.data;
                 $scope.okMsg = false;
 
                 $scope.isSubmited = false;
+                $scope.submitDone = false;
             });
-
-
         };
 
         // Check for duplicates
