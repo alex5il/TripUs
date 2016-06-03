@@ -5,9 +5,7 @@ tripUsControllers.controller('requirementsCtrl',
         var handleConnSubmitted = function (msg) {
             $scope.$apply(function () {
                 //$scope.msg = JSON.parse(msg.data)
-                console.log(msg.data);
-
-                // Get submitted users wia HTTP request
+                // Get submitted users via HTTP request
                 TripResults.getSubmittedUsers($routeParams.groupId).then(function (res) {
                     console.log(res);
                     $scope.submittedUsers = res.names;
@@ -20,6 +18,8 @@ tripUsControllers.controller('requirementsCtrl',
         // handles the callback from submit event
         var handleStartSubmitted = function (msg) {
             $scope.$apply(function () {
+
+                $scope.submittedUsers.push(msg.data);
                 console.log("User " + msg.data + " submitted reqs.");
             });
         };
