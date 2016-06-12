@@ -7,7 +7,6 @@ tripUsControllers.controller('requirementsCtrl',
                 //$scope.msg = JSON.parse(msg.data)
                 // Get submitted users via HTTP request
                 TripResults.getSubmittedUsers($routeParams.groupId).then(function (res) {
-                    console.log(res);
                     $scope.submittedUsers = res.names;
                 }, function (res) { // ERR
                     console.error("Sad face");
@@ -103,7 +102,7 @@ tripUsControllers.controller('requirementsCtrl',
             });
         };
 
-        $scope.searchTrip = function() {
+        $scope.searchTrip = function () {
             // If leader - run the algorithm and redirect to results page
             if ($scope.isLeader) {
                 // Call to start alghorithm
@@ -116,6 +115,9 @@ tripUsControllers.controller('requirementsCtrl',
 
                     $scope.isSubmited = false;
                 });
+
+                // Clearing users submitting event.
+                TripResults.clearEvent($routeParams.groupId);
 
                 // Sending event to other clients
                 alghorithm.sendEvent($routeParams.groupId).then(function (res) {

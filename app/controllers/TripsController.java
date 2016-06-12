@@ -41,6 +41,15 @@ public class TripsController extends Controller {
         return ok(event);
     }
 
+    public Result clearEvent() {
+        final JsonNode values = request().body().asJson();
+        String tripGroupKey = values.get("groupKey").asText();
+
+        submitEvents.remove(tripGroupKey);
+
+        return ok();
+    }
+
     public Result createTrip() {
         final JsonNode values = request().body().asJson();
         String tripGroupName = values.get("name").asText();
